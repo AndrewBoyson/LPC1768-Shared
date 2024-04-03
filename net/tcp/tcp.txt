@@ -1,0 +1,34 @@
+Names
+=====
+ISN     == Initial Sequence Number
+SEQ num == Sequence Number is the sequence of the first byte of the sent data packet - unless a SYN in which case it is the ISN
+ACK num == Acknowledge Number is the next sequence number that the sender of the ACK is expecting
+TCB     == Transmission Control Block
+RTO     == Retransmission Time Out
+
+Only received packets with a sequence of 1 (position == 0) is handled; any others are ignored. This works because we only handle the first line.
+
+From RFC793
+Reset Processing
+
+  In all states except SYN-SENT, all reset (RST) segments are validated
+  by checking their SEQ-fields.  A reset is valid if its sequence number
+  is in the window.  In the SYN-SENT state (a RST received in response
+  to an initial SYN), the RST is acceptable if the ACK field
+  acknowledges the SYN.
+
+  The receiver of a RST first validates it, then changes state.  If the
+  receiver was in the LISTEN state, it ignores it.  If the receiver was
+  in SYN-RECEIVED state and had previously been in the LISTEN state,
+  then the receiver returns to the LISTEN state, otherwise the receiver
+  aborts the connection and goes to the CLOSED state.  If the receiver
+  was in any other state, it aborts the connection and advises the user
+  and goes to the CLOSED state.
+  
+Retransmission Timer – To retransmit lost segments, TCP uses retransmission timeout (RTO).
+When TCP sends a segment the timer starts and stops when the acknowledgment is received.
+If the timer expires timeout occurs and the segment is retransmitted.
+The timer 'SendsBeingAcked' is reset whenever:
+    tcprecv - a packet is received where the ack counter has advanced;
+    tcpsend - the ack count received is the same as the seq count sent
+    tcpsend - resent the last unacked packet

@@ -1,0 +1,12 @@
+Layers
+
+NIC      - Hardware, Phy etc
+Link     - Raw data
+Ethernet - Contains the source and destination MACs and the Ethertype: ARP; IP4; IP6
+
+To use you need to:
+
+call NetInit once with the ipv4 name and the ipv6 name 
+call NetMain continuously.
+
+See the "ch" (Central Heating) or "gps" programs for examples. 

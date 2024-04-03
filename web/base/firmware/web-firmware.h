@@ -1,0 +1,1 @@
+extern void WebFirmwareListSemihostFiles(void);

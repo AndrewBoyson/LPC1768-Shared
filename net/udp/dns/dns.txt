@@ -1,0 +1,46 @@
+DNS -- host name and domain name if network is IPv4
+client query O   unicast 53053 ->    53 QR=0
+client reply I   unicast 53053 <-    53 QR=1
+
+LLMNR -- just the host name
+client query O multicast 53053 ->  5355 QR=0
+client reply I   unicast 53053 <-  5355 QR=1
+server query I multicast  5355 <- xxxxx QR=0
+server reply O   unicast  5355 -> xxxxx QR=1
+
+MDNS -- host name + '.local'
+client query O multicast  5353 ->  5353 QR=0
+client reply I multicast  5353 <-  5353 QR=1
+server query I multicast  5353 <-  5353 QR=0
+server reply O multicast  5353 ->  5353 QR=1
+
+Dns directs packets to DnsReply(receive) and DnsServer(receive and send) and polls for DnsQuery(send) packets
+
+DnsCache holds names against addresses and synchronises requests and replies.
+
+DnsHdr and DnsName are helper modules.
+
+LLMNR header
+  Ident    -4692
+  Non recursive query
+  qd, an, ns, ar  1, 0, 0, 0
+  Query PTR type record of 7.2.d.7.2.f.e.f.f.f.7.f.2.0.2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.8.e.f.ip6.arpa
+  deal with question 0, answer 0, question 12, node 28
+  replied with my name
+LLMNR header
+  Ident    -4692
+  Authoritative reply
+  qd, an, ns, ar  1, 1, 0, 0
+  Query PTR type record of 7.2.d.7.2.f.e.f.f.f.7.f.2.0.2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.8.e.f.ip6.arpa
+iEncodedName = 90
+nameLength = 74
+recordType = 12
+ttl = 1024
+len = 7
+  Answer PTR type record of 7.2.d.7.2.f.e.f.f.f.7.f.2.0.2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.8.e.f.ip6.arpa2017-275 19:31:50 DnsNameDecode overran name buffer
+ eating.local60-c83a400f913a
+NT: urn:schemas-nds-com:service:SkyRemote:1
+NTS: ssdp:alive
+SERVER: Linux.3.10.27 UPnP/1.0 SKY DLNADOC/1.50
+X-User-Agent. redsonic
+USN: uuid:52554976-3247-4761-7465-0cf9c08ea5b2:
