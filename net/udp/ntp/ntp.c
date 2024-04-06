@@ -10,7 +10,6 @@
 #include "ntpserver.h"
 #include "ntphdr.h"
 #include "clock/clk/clktime.h"
-#include "lpc1768/reset/restart.h"
 
 bool NtpTrace = false;
 
@@ -47,9 +46,6 @@ void NtpLogHeader(char* pPacket)
 
 int NtpHandlePacketReceived(void (*traceback)(void), int sizeRx, char* pPacketRx, int* pSizeTx, char* pPacketTx)
 {
-    int lastRestartPoint = RestartPoint;
-    RestartPoint = FAULT_POINT_NtpHandlePacketReceived;
-    
     if (sizeRx != NTP_HEADER_LENGTH)
     {
         LogTimeF("\r\nNTP packet wrong size %d\r\n", sizeRx);
@@ -64,7 +60,6 @@ int NtpHandlePacketReceived(void (*traceback)(void), int sizeRx, char* pPacketRx
         default:         LogTimeF("\r\nNTP packet unknown mode %d\r\n", NtpHdrGetMode(pPacketRx)); break;
     }
     
-    RestartPoint = lastRestartPoint;
     if (dest == DO_NOTHING)
     {
         return DO_NOTHING;

@@ -140,6 +140,12 @@ void WebAddLabelledInt(const char* label, int value)
     snprintf(text, sizeof(text), "%8d", value); //Right align with enough spaces so that the length is always constant. 
     WebAddLabelledText(label, text);
 }
+void WebAddLabelledHex(const char* label, unsigned value)
+{
+    char text[30];
+    snprintf(text, sizeof(text), "%8x", value); //Right align with enough spaces so that the length is always constant. 
+    WebAddLabelledText(label, text);
+}
 void WebAddInputText(const char* label, float inputwidth, const char* value, const char* action, const char* name)
 {
     HttpAddF   ("<form action='%s' method='get'>\r\n", action);

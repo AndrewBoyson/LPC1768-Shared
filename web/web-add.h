@@ -16,6 +16,7 @@ extern void WebAddLabelledIp6         (const char* label,                       
 extern void WebAddLabelledOnOff       (const char* label,                       bool        value);
 extern void WebAddLabelledLed         (const char* label,                       bool        value);
 extern void WebAddLabelledInt         (const char* label,                       int         value);
+extern void WebAddLabelledHex         (const char* label,                       unsigned    value);
 
 extern void WebAddInputText           (const char* label,   float inputwidth,   const char* value, const char* action, const char* name);
 extern void WebAddInputInt            (const char* label,   float inputwidth,   int         value, const char* action, const char* name);

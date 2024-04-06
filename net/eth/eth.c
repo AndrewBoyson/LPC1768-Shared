@@ -8,7 +8,6 @@
 #include "net/link/link.h"
 #include "eth.h"
 #include "mac.h"
-#include "lpc1768/reset/restart.h"
 #include "lpc1768/led.h"
 
 #define MTU 1500
@@ -57,10 +56,7 @@ void LogHeader(char* pPacket)
 static char* tracePacket;
 static void trace() { LogHeader(tracePacket); }
 int EthHandlePacket(char* pPacketRx, int sizeRx, char* pPacketTx, int* pSizeTx)
-{	
-    int lastRestartPoint = RestartPoint;
-    RestartPoint = FAULT_POINT_EthHandlePacket;
-    
+{    
     tracePacket = pPacketRx;
     
     char* pDataRx    = pPacketRx + HEADER_LENGTH;
@@ -69,18 +65,10 @@ int EthHandlePacket(char* pPacketRx, int sizeRx, char* pPacketTx, int* pSizeTx)
     int dataLengthTx =  *pSizeTx - HEADER_LENGTH;
     if (dataLengthTx > MTU) dataLengthTx = MTU; //Limit the transmitted length to the maximum ethernet frame payload length
         
-    if (!MacAccept(hdrDstPtr(pPacketRx)))
-    {
-        RestartPoint = lastRestartPoint;
-        return DO_NOTHING;
-    }
+    if (!MacAccept(hdrDstPtr(pPacketRx))) return DO_NOTHING;
     
     EthProtocol = hdrTypGet(pPacketRx);
-    if (EthProtocol < 1500)
-    {
-        RestartPoint = lastRestartPoint;
-        return DO_NOTHING; //drop 802.3 messages
-    }
+    if (EthProtocol < 1500) return DO_NOTHING; //drop 802.3 messages
 
     NetTraceHostCheckMac(hdrSrcPtr(pPacketRx));
 
@@ -101,11 +89,7 @@ int EthHandlePacket(char* pPacketRx, int sizeRx, char* pPacketTx, int* pSizeTx)
             LogTimeF("ETH protocol %d not handled", EthProtocol);
             break;
     }
-    if (!action)
-    {
-        RestartPoint = lastRestartPoint;
-        return DO_NOTHING;
-    }
+    if (!action) return DO_NOTHING;
         
     MacMakeFromDest(ActionGetDestPart(action), EthProtocol, EthMacRemote);
     MacCopy(hdrSrcPtr(pPacketTx), MacLocal);
@@ -116,7 +100,6 @@ int EthHandlePacket(char* pPacketRx, int sizeRx, char* pPacketTx, int* pSizeTx)
     
     if (ActionGetTracePart(action)) LogHeader(pPacketTx);
     
-    RestartPoint = lastRestartPoint;
     return action;
 }
 int EthPollForPacketToSend(char* pPacket, int* pSize)

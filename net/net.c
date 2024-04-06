@@ -165,13 +165,10 @@ void NetInit()
 }
 void NetMain()
 {
-    int lastRestartPoint = RestartPoint;
-    RestartPoint = FAULT_POINT_NetMain;
      LinkMain();
       TcpMain();
       Ar4Main();
       Ar6Main();
        NrMain();
       DnsMain();
-    RestartPoint = lastRestartPoint;
 }

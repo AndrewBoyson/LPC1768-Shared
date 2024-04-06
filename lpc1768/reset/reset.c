@@ -17,11 +17,7 @@ bool ResetWasPushButton()
 bool ResetHasAlarm()
 {
     if (ResetAccepted) return false;
-    if (RsidExtr)
-    {
-        if (RestartGetLastCause() == RESTART_CAUSE_RESET_BUTTON  ) return false;
-        if (RestartGetLastCause() == RESTART_CAUSE_SOFTWARE_RESET) return false;
-    }
+    if (RsidExtr)      return false;
     return true;
 }
 void ResetInit()

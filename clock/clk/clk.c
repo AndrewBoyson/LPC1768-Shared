@@ -1,10 +1,10 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#include "../../log/log.h"
-#include "../../lpc1768/rtc/rtc.h"
-#include "../../lpc1768/hrtimer/hrtimer.h"
-#include "../../lpc1768/led.h"
+#include "log/log.h"
+#include "lpc1768/rtc/rtc.h"
+#include "lpc1768/hrtimer/hrtimer.h"
+#include "lpc1768/led.h"
 #include  "clktime.h"
 #include   "clkgov.h"
 #include    "clktm.h"

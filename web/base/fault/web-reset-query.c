@@ -2,7 +2,6 @@
 
 #include "web/http/http.h"
 #include "lpc1768/reset/reset.h"
-#include "lpc1768/reset/restart.h"
 
 void WebResetQuery(char* pQuery)
 {
@@ -14,10 +13,13 @@ void WebResetQuery(char* pQuery)
         
         if (HttpSameStr(pName, "resetaccept")) ResetAccepted = true;
         
-        if (HttpSameStr(pName, "resettest" ))
+        if (HttpSameStr(pName, "hardfaulttest" ))
         {
-            RestartPoint = 999;
             *(volatile int *)0 = 0; //Dereferencing address 0 will hard fault the processor
+        }
+        if (HttpSameStr(pName, "watchdogtest" ))
+        {
+            while(1) {;} //An endless loop will trip the watchdog
         }
         
     }

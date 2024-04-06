@@ -5,7 +5,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "../lpc1768/serialpc.h"
+#include "lpc1768/serialpc.h"
+#include "lpc1768/reset/rsid.h"
 
 #define BUFFER_LENGTH 0x4000
 __attribute__((section(".usbram"))) static char buffer[BUFFER_LENGTH]; //Pop the buffer into the USB area
@@ -14,9 +15,9 @@ __attribute__((section(".usbram"))) static char buffer[BUFFER_LENGTH]; //Pop the
 //#define BUFFER_LENGTH 0x100
 //static char buffer[BUFFER_LENGTH];
 
-static char* pPush; //Initialised in init
-static char* pPull; //Initialised in init
-static char *pUart; //Initialised in init
+__attribute__((section(".persist"))) static char* pPush; //Initialised in init
+__attribute__((section(".persist"))) static char* pPull; //Initialised in init
+__attribute__((section(".persist"))) static char* pUart; //Initialised in init
 
 static bool enable = true;
 static void (*tmFunction)(struct tm* ptm);
@@ -87,16 +88,26 @@ void LogEnable(bool value)
 }
 void LogClear()
 {
-    pPush = buffer;
-    pPull = buffer;
-    pUart = buffer;
+	pPush = buffer;
+	pPull = buffer;
+	pUart = buffer;
 }
 void LogInit(void (*tmFunctionParam)(struct tm* ptm), int baud)
 {
     useUart = baud;
     if (useUart) SerialPcInit(baud);
     tmFunction = tmFunctionParam;
-    LogClear();
+	
+	//If had power on reset then reset the persistent pointers to the start of the buffer
+	if (RsidPor || 
+	    pPush < buffer || pPush > buffer + BUFFER_LENGTH ||
+	    pPull < buffer || pPull > buffer + BUFFER_LENGTH ||
+	    pUart < buffer || pUart > buffer + BUFFER_LENGTH )
+	{
+		pPush = buffer;
+		pPull = buffer;
+		pUart = buffer;
+	}
 }
 void LogMain()
 {

@@ -3,7 +3,6 @@
 
 #include "log/log.h"
 #include "net/net.h"
-#include "lpc1768/reset/restart.h"
 
 static char* hdrPtrSrcPort   (char* pPacket) { return pPacket +  0; } //2
 static char* hdrPtrDstPort   (char* pPacket) { return pPacket +  2; } //2
@@ -80,10 +79,7 @@ void TcpHdrLog(uint16_t calculatedChecksum)
     }
 }
 void TcpHdrReadFromPacket(char* pPacket)
-{
-    int lastRestartPoint = RestartPoint;
-    RestartPoint = FAULT_POINT_TcpHdrReadFromPacket;
-                        
+{                        
     NetInvert16(&TcpHdrSrcPort,  hdrPtrSrcPort   (pPacket));
     NetInvert16(&TcpHdrDstPort,  hdrPtrDstPort   (pPacket));
     NetInvert32(&TcpHdrSeqNum,   hdrPtrSeqnum    (pPacket));
@@ -108,7 +104,7 @@ void TcpHdrReadFromPacket(char* pPacket)
     {
         switch (*p)
         {
-            case 0: RestartPoint = lastRestartPoint; return; //End of options so stop
+            case 0: return; //End of options so stop
             case 1: break;  //NOP, padding - optional used to pad to 32 bit boundary
             case 2:
                 p++;
@@ -117,12 +113,10 @@ void TcpHdrReadFromPacket(char* pPacket)
                 mss = ((uint16_t)*p) << 8;
                 p++;
                 mss += *p;
-                RestartPoint = lastRestartPoint;
                 return;     //Got what we want so stop
             default: LogTimeF("Unrecognised TCP option %d\r\n", *p);
         }
     }
-    RestartPoint = lastRestartPoint;
 }
 
 void TcpHdrWriteToPacket(char* pPacket)

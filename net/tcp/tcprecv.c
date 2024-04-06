@@ -15,7 +15,6 @@
 #include "https/https.h"
 #include "lpc1768/led.h"
 #include "lpc1768/mstimer/mstimer.h"
-#include "lpc1768/reset/restart.h"
 
 
 static void logTrace(void (*traceback)(void), char* fmt, ...)
@@ -105,8 +104,6 @@ static int sendResetFromPacket(int* pSizeTx, void* pPacketTx, int ipType, int re
 
 int TcpHandleReceivedPacket(void (*traceback)(void), int sizeRx, void* pPacketRx, int* pSizeTx, void* pPacketTx, int ipType, int remArIndex, int locIpScope)
 {
-    int lastRestartPoint = RestartPoint;
-    RestartPoint = FAULT_POINT_TcpHandleReceivedPacket;
     
     int action = DO_NOTHING;
     bool traceRequested = false;
@@ -116,10 +113,8 @@ int TcpHandleReceivedPacket(void (*traceback)(void), int sizeRx, void* pPacketRx
     if (remArIndex < 0)
     {
         logTrace(traceback, "invalid remote AR index %d -> ignored packet", remArIndex);
-        RestartPoint = lastRestartPoint;
         return DO_NOTHING;
     }
-    RestartPoint += 100;
     
     int dataLength =   sizeRx - TcpHdrSizeGet();
     int locMss     = *pSizeTx - TcpHdrSizeGet();
@@ -131,7 +126,6 @@ int TcpHandleReceivedPacket(void (*traceback)(void), int sizeRx, void* pPacketRx
     if (TcpHdrFIN) seqLengthRcvd += 1;          //Add one to acknowledge the FIN
     
     //Filter out unwanted links
-    RestartPoint++;
     switch (TcpHdrDstPort)
     {
         case 80:
@@ -155,19 +149,16 @@ int TcpHandleReceivedPacket(void (*traceback)(void), int sizeRx, void* pPacketRx
         default: //Send reset if unknown port
             logTrace(traceback, "unhandled local port %hu -> sent reset", TcpHdrDstPort);
             action = sendResetFromPacket(pSizeTx, pPacketTx, ipType, remArIndex, locIpScope, seqLengthRcvd);
-            RestartPoint = lastRestartPoint;
             return action;
     }
     
     //Get the Transmission Control Block
-    RestartPoint++;
     struct tcb* pTcb = TcbGetExisting(ipType, remArIndex, locIpScope, TcpHdrSrcPort, TcpHdrDstPort);
     if (!pTcb) pTcb = TcbGetEmpty();
     if (!pTcb) //send reset if no more tcbs are available
     {
         logTrace(traceback, "no more tcbs available -> sent reset");
         action = sendResetFromPacket(pSizeTx, pPacketTx, ipType, remArIndex, locIpScope, seqLengthRcvd);
-        RestartPoint = lastRestartPoint;
         return action;
     }
     pTcb->timeLastRcvd     = MsTimerCount;
@@ -179,7 +170,6 @@ int TcpHandleReceivedPacket(void (*traceback)(void), int sizeRx, void* pPacketRx
     pTcb->window           = TcpHdrWindow;
     
     //Handle request to reset
-    RestartPoint++;
     if (TcpHdrRST)
     {
         if (pTcb->state)
@@ -187,12 +177,10 @@ int TcpHandleReceivedPacket(void (*traceback)(void), int sizeRx, void* pPacketRx
             logTrace(traceback, "received reset -> reaped TCB");
             pTcb->state = TCB_EMPTY;
         }
-        RestartPoint = lastRestartPoint;
         return DO_NOTHING;        //Don't reply
     }
     
     //Handle request to synchronise
-    RestartPoint++;
     if (TcpHdrSYN)
     {
         if (pTcb->state)
@@ -200,7 +188,6 @@ int TcpHandleReceivedPacket(void (*traceback)(void), int sizeRx, void* pPacketRx
             logTrace(traceback, "received a SYN on an open connection -> sent reset");
             pTcb->state = TCB_EMPTY;
             action = TcpSendReset(pSizeTx, pPacketTx, pTcb);
-            RestartPoint = lastRestartPoint;
             return action;
         }
         else
@@ -210,19 +197,16 @@ int TcpHandleReceivedPacket(void (*traceback)(void), int sizeRx, void* pPacketRx
     }
     
     //Handle non SYN packet on an empty connection
-    RestartPoint++;
     if (!TcpHdrSYN && !pTcb->state)
     {
 
         logTrace(traceback, "non SYN packet received on a closed connection -> sent reset");
         pTcb->state = TCB_EMPTY;
         action = sendResetFromPacket(pSizeTx, pPacketTx, ipType, remArIndex, locIpScope, seqLengthRcvd);
-        RestartPoint = lastRestartPoint;
         return action;
     }
     
     //Check if the acks of bytes sent has progressed and reset the timer
-    RestartPoint++;
     uint32_t ackRcvdFromRem = TcpHdrACK ? TcpHdrAckNum - pTcb->locIsn : 0;
     if (ackRcvdFromRem > pTcb->bytesAckdByRem)
     {
@@ -231,7 +215,6 @@ int TcpHandleReceivedPacket(void (*traceback)(void), int sizeRx, void* pPacketRx
     }
 
     //Record the number of bytes acked by the remote host
-    RestartPoint++;
     pTcb->bytesAckdByRem = ackRcvdFromRem;
 
     /* If the connection is in a synchronized state
@@ -240,7 +223,6 @@ int TcpHandleReceivedPacket(void (*traceback)(void), int sizeRx, void* pPacketRx
     acknowledgment segment containing the current send-sequence number
     and an acknowledgment indicating the next sequence number expected
     to be received, and the connection remains in the same state.*/
-    RestartPoint++;
     uint32_t seqRcvdFromRem = TcpHdrSeqNum - pTcb->remIsn;
     if (seqRcvdFromRem != pTcb->bytesAckdToRem)
     {
@@ -250,30 +232,24 @@ int TcpHandleReceivedPacket(void (*traceback)(void), int sizeRx, void* pPacketRx
             logTrace(traceback, "seq rcvd is %d and last seq ackd was %d -> resent last ACK", seqRcvdFromRem, pTcb->bytesAckdToRem);
         }
         action = TcpResendLastAck(pSizeTx, pPacketTx, pTcb);
-        RestartPoint = lastRestartPoint;
         return action;
     }
     //Ignore data before established
-    RestartPoint++;
     if (pTcb->state != TCB_ESTABLISHED && dataLength)
     {
         logTrace(traceback, "data received before connection established -> sent reset");
         pTcb->state = TCB_EMPTY;
         action = TcpSendReset(pSizeTx, pPacketTx, pTcb);
-        RestartPoint = lastRestartPoint;
         return action;
     }
     
     //Handle FIN
-    RestartPoint++;
     if (TcpHdrFIN) pTcb->rcvdFin = true; //When reply is all sent only a passive close is needed
     
     //From now on there are no errors so display traceback if requested
-    RestartPoint++;
     if (traceRequested && NetTraceStack) traceback();
     
     //Record the number of bytes received from the remote host
-    RestartPoint++;
     pTcb->bytesRcvdFromRem += seqLengthRcvd;
 
     switch (pTcb->state) //This is the state of the connection BEFORE this packet arrived
@@ -306,9 +282,7 @@ int TcpHandleReceivedPacket(void (*traceback)(void), int sizeRx, void* pPacketRx
             
     }
     
-    RestartPoint++;
     action = TcpSend(pSizeTx, pPacketTx, pTcb);
 
-    RestartPoint = lastRestartPoint;
     return action;
 }

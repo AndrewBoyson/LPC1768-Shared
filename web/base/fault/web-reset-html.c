@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 
 #include "web/http/http.h"
 #include "web/base/web-nav-base.h"
@@ -16,18 +17,20 @@ void WebResetHtml()
     
     WebAddH2("Reset source id (RSID)");
     
-    WebAddLabelledLed("Power on"                       , RsidPor );
-    WebAddLabelledLed("Brown out"                      , RsidBodr);
-    WebAddLabelledLed("Watchdog"                       , RsidWdtr);
-    WebAddLabelledLed("Restart (external or semi-host)", RsidExtr);
+    WebAddLabelledLed("Power on"                          , RsidPor );
+    WebAddLabelledLed("Brown out"                         , RsidBodr);
+    WebAddLabelledLed("Watchdog (not used directly)"      , RsidWdtr);
+    WebAddLabelledLed("External (pushbutton or semi-host)", RsidExtr);
+    WebAddLabelledLed("System reset"                      , RsidSysReset);
+    WebAddLabelledLed("Lockup"                            , RsidLockup);
 
-    WebAddH2("Restart from GUI, PB or fault");
-    WebAddLabelledText("Cause", RestartGetCauseString());
-    WebAddLabelledText("Zone" , RestartGetZoneString() );
-    WebAddLabelledInt ("Point", RestartGetLastPoint()  );
+    WebAddH2("Last restart");
+    WebAddLabelledText("Cause"                , RestartGetCauseString());
+    WebAddLabelledHex ("Program Counter (Hex)", RestartGetLastPC     ());
     
     WebAddH2("Test");
-    WebAddInputButton("Create hard fault",  "Test",  "/reset", "resettest");
+    WebAddInputButton("Create hard     fault",  "Test",  "/reset", "hardfaulttest");
+    WebAddInputButton("Create watchdog fault",  "Test",  "/reset", "watchdogtest");
     
     WebAddH2("Alarm");
     WebAddLabelledLed("Alarm", ResetHasAlarm());

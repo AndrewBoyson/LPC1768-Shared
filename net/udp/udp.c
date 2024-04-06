@@ -15,7 +15,6 @@
 #include "net/ip6/ip6.h"
 #include "net/ip6/slaac.h"
 #include "net/ip6/icmp/ndp/ns.h"
-#include "lpc1768/reset/restart.h"
 #include "net/user.h"
 
 bool UdpTrace = true;
@@ -120,9 +119,6 @@ static int handlePort(void (*traceback)(void), int dataLengthRx, char* pDataRx, 
 }
 int UdpHandleReceivedPacket(void (*traceback)(void), int sizeRx, char* pPacketRx, int* pSizeTx, char* pPacketTx)
 {    
-    int lastRestartPoint = RestartPoint;
-    RestartPoint = FAULT_POINT_UdpHandleReceivedPacket;
-    
     readHeader(pPacketRx);
 
     void* pDataRx    = pPacketRx + HEADER_LENGTH;
@@ -138,7 +134,6 @@ int UdpHandleReceivedPacket(void (*traceback)(void), int sizeRx, char* pPacketRx
     dstPort = srcPort;
     srcPort = tmpPort;
     
-    RestartPoint = lastRestartPoint;
     return action;
 }
 static int pollForPacketToSend(int type, int* pDataLength, char* pData)

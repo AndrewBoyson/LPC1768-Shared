@@ -11,6 +11,6 @@ void WebFirmwareQuery(char* pQuery)
         pQuery = HttpQuerySplit(pQuery, &pName, &pValue);
         int value = HttpQueryValueAsInt(pValue);    
         
-        if (HttpSameStr(pName, "restart")) Restart(RESTART_CAUSE_SOFTWARE_RESET);
+        if (HttpSameStr(pName, "restart")) Restart(RESTART_CAUSE_RELOAD_PROGRAM, 0);
     }
 }

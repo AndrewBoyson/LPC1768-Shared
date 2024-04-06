@@ -14,7 +14,6 @@
 #include "net/udp/udp.h"
 #include "net/resolve/ar4.h"
 #include "lpc1768/led.h"
-#include "lpc1768/reset/restart.h"
 #include "net/checksum.h"
 
 static uint16_t calculateChecksum(uint8_t pro, uint32_t srcIp, uint32_t dstIp, int size, void* pPacket)
@@ -73,8 +72,6 @@ static void trace()
 }
 int Tcp4HandleReceivedPacket(void (*traceback)(void), void* pPacketRx, int sizeRx, void* pPacketTx, int* pSizeTx, uint32_t* pSrcIp, uint32_t* pDstIp, int remArIndex)
 {
-    int lastRestartPoint = RestartPoint;
-    RestartPoint = FAULT_POINT_Tcp4HandleReceivedPacket;
     
     pTraceBack = traceback;
     tracePacketProtocol = TCP;
@@ -86,15 +83,11 @@ int Tcp4HandleReceivedPacket(void (*traceback)(void), void* pPacketRx, int sizeR
     
     finalisePacket(TCP, action, pPacketTx, *pSizeTx, pSrcIp, pDstIp);
   
-    RestartPoint = lastRestartPoint;
     return action;
 }
 
 int Udp4HandleReceivedPacket(void (*traceback)(void), void* pPacketRx, int sizeRx, void* pPacketTx, int* pSizeTx, uint32_t* pSrcIp, uint32_t* pDstIp)
-{   
-    int lastRestartPoint = RestartPoint;
-    RestartPoint = FAULT_POINT_Udp4HandleReceivedPacket;
-    
+{
     pTraceBack = traceback;
     tracePacketProtocol = UDP;
     calculatedChecksum = calculateChecksum(UDP, *pSrcIp, *pDstIp, sizeRx, pPacketRx);
@@ -105,7 +98,6 @@ int Udp4HandleReceivedPacket(void (*traceback)(void), void* pPacketRx, int sizeR
     
     finalisePacket(UDP, action, pPacketTx, *pSizeTx, pSrcIp, pDstIp); //Note that the ports are reversed here
     
-    RestartPoint = lastRestartPoint;
     return action;
 }
 int Tcp4PollForPacketToSend(void* pPacket, int* pSize, uint32_t* pSrcIp, uint32_t* pDstIp)

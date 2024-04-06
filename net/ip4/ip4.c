@@ -16,7 +16,6 @@
 #include "net/ip4/ip4addr.h"
 #include "net/ip4/ip4hdr.h"
 #include "net/udp/ntp/ntp.h"
-#include "lpc1768/reset/restart.h"
 #include "net/checksum.h"
 
 bool     Ip4Trace = true;
@@ -85,9 +84,6 @@ static void trace()
 
 int Ip4HandleReceivedPacket(void (*traceback)(void), char* pPacketRx, int sizeRx, char* pPacketTx, int* pSizeTx, char* macRemote)
 {
-    int lastRestartPoint = RestartPoint;
-    RestartPoint = FAULT_POINT_Ip4HandleReceivedPacket;
-
     traceHeader = pPacketRx;
     pTraceBack = traceback;
 
@@ -121,7 +117,6 @@ int Ip4HandleReceivedPacket(void (*traceback)(void), char* pPacketRx, int sizeRx
             Ip4AddrLog(srcIp);
             Log("\r\n");
         }
-        RestartPoint = lastRestartPoint;
         return DO_NOTHING;
     }
 
@@ -138,14 +133,9 @@ int Ip4HandleReceivedPacket(void (*traceback)(void), char* pPacketRx, int sizeRx
         case IP6IN4:                                                                                                                       break;
         default:
             LogTimeF("IP4 received packet unknown protocol %d\r\n", protocol);
-            RestartPoint = lastRestartPoint;
             return DO_NOTHING;
     }
-    if (!action)
-    {
-        RestartPoint = lastRestartPoint;
-        return DO_NOTHING;
-    }
+    if (!action) return DO_NOTHING;
 
     uint8_t ttl = 0;
     if (DhcpIpNeedsToBeRouted(dstIp))
@@ -164,7 +154,6 @@ int Ip4HandleReceivedPacket(void (*traceback)(void), char* pPacketRx, int sizeRx
     
     if (ActionGetTracePart(action)) logHeader(pPacketTx);
 
-    RestartPoint = lastRestartPoint;
     return action;
 }
 int Ip4PollForPacketToSend(char* pPacket, int* pSize, char* pDstMac)
