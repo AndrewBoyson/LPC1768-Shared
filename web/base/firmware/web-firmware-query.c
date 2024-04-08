@@ -9,7 +9,8 @@ void WebFirmwareQuery(char* pQuery)
         char* pName;
         char* pValue;
         pQuery = HttpQuerySplit(pQuery, &pName, &pValue);
-        int value = HttpQueryValueAsInt(pValue);    
+		
+        //int value = HttpQueryValueAsInt(pValue);    
         
         if (HttpSameStr(pName, "restart")) Restart(RESTART_CAUSE_RELOAD_PROGRAM, 0);
     }

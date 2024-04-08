@@ -45,7 +45,7 @@ static void createUniqueName()
         FirmwareFailed = true;
     }
 }
-static void openFileWrite()
+static void __attribute__ ((unused)) openFileWrite()
 {
     if (FirmwareFailed) return;
     if (FirmwareTrace) LogTimeF("Firmware - open file write %s\r\n", filename);

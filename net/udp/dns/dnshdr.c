@@ -154,9 +154,11 @@ static void logContent()
         int recordType = *p++;         //Record type
         
         p++;                           //Skip the high byte of the class type
+        __attribute__ ((unused))
         int classType = *p++;          //Class type
         
-        int ttl = decodeUint32(p); p += 4;     //32bit TTL
+        __attribute__ ((unused))
+		int ttl = decodeUint32(p); p += 4;     //32bit TTL
         
         int len = decodeUint16(p); p += 2;     //16bit length
         

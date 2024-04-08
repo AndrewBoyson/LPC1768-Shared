@@ -14,7 +14,8 @@ void WebNetQuery(char* pQuery)
         char* pValue;
         pQuery = HttpQuerySplit(pQuery, &pName, &pValue);
         HttpQueryUnencode(pValue);
-        int value = HttpQueryValueAsInt(pValue);
+		
+        //int value = HttpQueryValueAsInt(pValue);
         
         if (HttpSameStr(pName, "name-to-resolve"))
         {

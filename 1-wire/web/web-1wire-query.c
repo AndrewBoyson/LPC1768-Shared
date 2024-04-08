@@ -15,7 +15,7 @@ void WebOneWireQuery(char* pQuery)
         
         HttpQueryUnencode(pValue);
 
-        int value = HttpQueryValueAsInt(pValue);
+        //int value = HttpQueryValueAsInt(pValue);
                     
         if (HttpSameStr(pName, "rom0")) { char rom[8]; DeviceParseAddress(pValue, rom); DS18B20RomSetters[0](rom); }
         if (HttpSameStr(pName, "rom1")) { char rom[8]; DeviceParseAddress(pValue, rom); DS18B20RomSetters[1](rom); }
