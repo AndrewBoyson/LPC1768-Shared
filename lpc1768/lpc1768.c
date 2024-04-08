@@ -8,7 +8,6 @@
 #include "hrtimer/hrtimer.h"
 #include "mstimer/mstimer.h"
 #include "scan/scan.h"
-#include "bignum/bignum.h"
 
 void Lpc1768Init()
 {

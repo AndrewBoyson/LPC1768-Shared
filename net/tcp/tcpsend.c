@@ -11,7 +11,6 @@
 #include "net/ip4/ip4.h"
 #include "net/udp/dhcp/dhcp.h"
 #include "httpv/httpv.h"
-#include "https/https.h"
 #include "lpc1768/led.h"
 #include "tcpsend.h"
 #include "lpc1768/mstimer/mstimer.h"
@@ -39,7 +38,6 @@ static bool doTrace(uint16_t port)
     switch (port)
     {
         case  80: return HttpvGetTrace();
-        case 443: return HttpsGetTrace();
         default:  return false;
     }    
 }
@@ -52,7 +50,6 @@ static bool addAppData(int *pDataLength, void* pPacket, int connection, uint16_t
     switch (port)
     {
         case  80: finished = HttpvResponse(connection, clientFinished, pDataLength, pWindow, windowPositionInStream); break;
-        case 443: finished = HttpsResponse(connection, clientFinished, pDataLength, pWindow, windowPositionInStream); break;
     }
     return finished;
 }

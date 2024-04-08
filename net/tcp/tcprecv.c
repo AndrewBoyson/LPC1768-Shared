@@ -12,7 +12,6 @@
 #include "net/ip4/ip4.h"
 #include "net/udp/dhcp/dhcp.h"
 #include "httpv/httpv.h"
-#include "https/https.h"
 #include "lpc1768/led.h"
 #include "lpc1768/mstimer/mstimer.h"
 
@@ -51,7 +50,6 @@ static void handleSyn(void *pPacket, int ipType, int remArIndex, int locMss, str
     switch (pTcb->locPort) //Reset the application
     {
         case  80: HttpvReset(TcbGetId(pTcb)); break;
-        case 443: HttpsReset(TcbGetId(pTcb)); break;
     }
 }
 static void handleReceivedData(void* pPacket, int dataLength, uint32_t position, struct tcb* pTcb)
@@ -61,7 +59,6 @@ static void handleReceivedData(void* pPacket, int dataLength, uint32_t position,
     switch (pTcb->locPort)
     {
         case  80: HttpvRequest(TcbGetId(pTcb), dataLength, pData, position); break;
-        case 443: HttpsRequest(TcbGetId(pTcb), dataLength, pData, position); break;
     }
 }
 static int sendResetFromPacket(int* pSizeTx, void* pPacketTx, int ipType, int remArIndex, int locIpScope, int seqLengthRcvd)
@@ -133,15 +130,6 @@ int TcpHandleReceivedPacket(void (*traceback)(void), int sizeRx, void* pPacketRx
             {
                 if (NetTraceNewLine) Log("\r\n");
                 LogTime("HTTP server request\r\n");
-                traceRequested = true;
-            }
-            break;
-            
-        case 443:
-            if (HttpsGetTrace())
-            {
-                if (NetTraceNewLine) Log("\r\n");
-                LogTimeF("HTTPS server request of %d bytes\r\n", dataLength);
                 traceRequested = true;
             }
             break;
