@@ -5,7 +5,7 @@ extern bool       NtpTrace;
 extern int  NtpHandlePacketReceived(void (*traceback)(void), int sizeRx, char* pPacketRx, int* pSizeTx, char* pPacketTx);
 extern int  NtpPollForPacketToSend(int type, char* pPacket, int* pSize);
 extern void NtpLogHeader(char* pPacket);
-extern void NtpInit(void);
+extern void NtpInit(char ntpEnable);
 
 #define NTP_PORT 123
 

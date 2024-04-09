@@ -6,7 +6,6 @@
 #include "dnsname.h"
 #include "dnslabel.h"
 #include "net/net.h"
-#include "net-this/net-this.h"
 #include "net/action.h"
 #include "log/log.h"
 #include "net/udp/dhcp/dhcp.h"
@@ -180,7 +179,7 @@ static int addAnswers(int dnsProtocol)
 
 int DnsServerHandleQuery(void (*traceback)(void), int dnsProtocol, void* pPacketTx, int *pSizeTx) //Received an mdns or llmnr query on port 5353 or 5355
 {            
-    myFullNameLength = DnsLabelMakeFullNameFromName(dnsProtocol, NET_NAME, sizeof(myFullName), myFullName);
+    myFullNameLength = DnsLabelMakeFullNameFromName(dnsProtocol, NetName, sizeof(myFullName), myFullName);
     
     if (readQuestions()) return DO_NOTHING;
     if (!answerCount) return DO_NOTHING;

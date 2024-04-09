@@ -17,6 +17,8 @@
 #include "lpc1768/led.h"
 #include "lpc1768/reset/restart.h"
 
+char* NetName = 0; //Pointer assigned during init from the application so no memory allocated here
+
 bool NetTraceStack      = false;
 bool NetTraceNewLine    = false;
 bool NetTraceVerbose    = false;
@@ -153,15 +155,16 @@ void NetDirect64(void* h, void* n)
     *ph = *pn; ph++; pn++; // 6<-6
     *ph = *pn;             // 7<-7
 }
-void NetInit()
+void NetInit(char* name, void (* linkLed)(char on), void (*speedLed)(char on), char ntpEnable)
 {
-        LinkInit();
+	NetName = name;
+        LinkInit(linkLed, speedLed);
          TcpInit();
          Ar4Init();
          Ar6Init();
           NrInit();
        SlaacInit();
-         NtpInit();
+         NtpInit(ntpEnable);
 }
 void NetMain()
 {

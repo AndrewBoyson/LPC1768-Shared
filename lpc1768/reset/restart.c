@@ -48,7 +48,7 @@ const char* RestartGetCauseString()
     switch (lastCause)
     {
         case RESTART_CAUSE_RESET_BUTTON:     return "Reset button";
-        case RESTART_CAUSE_RELOAD_PROGRAM:   return "Reload program";
+        case RESTART_CAUSE_RELOAD_PROGRAM:   return "Reload";
         case RESTART_CAUSE_HARD_FAULT:       return "Hard fault";
         case RESTART_CAUSE_DEFAULT_HANDLER:  return "Default handler";
         case RESTART_CAUSE_WATCHDOG_HANDLER: return "Watchdog";

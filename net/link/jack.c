@@ -1,30 +1,34 @@
 #include <stdbool.h>
 
-#include "lpc1768/gpio.h"
 #include "lpc1768/mstimer/mstimer.h"
-#include "net-this/net-jack-leds.h"
 
 #define BLINK_DURATION_MS 50
+
+void (* _linkLed)(char on) = 0; //Initialised from a routine in the application
+void (*_speedLed)(char on) = 0; //Initialised from a routine in the application
 
 void JackLeds(bool phyLink, bool phySpeed, bool activity)
 {
     static int blinkTimer = 0;
+	
+	if (! _linkLed) return;
+	if (!_speedLed) return;
     
     if (activity) blinkTimer = MsTimerCount;
     if (MsTimerRelative(blinkTimer, BLINK_DURATION_MS))
     {
-        if (phyLink)  LED_GR_L_SET; else LED_GR_L_CLR;
-        if (phySpeed) LED_YE_R_SET; else LED_YE_R_CLR;
+        if (phyLink )  _linkLed(1); else  _linkLed(0);
+        if (phySpeed) _speedLed(1); else _speedLed(0);
     }
     else
     {
-        LED_GR_L_CLR;
-        LED_YE_R_CLR;
+         _linkLed(0);
+        _speedLed(0);
     }
 }
 
-void JackInit()
+void JackInit(void (* linkLed)(char on), void (*speedLed)(char on))
 {
-    LED_GR_L_DIR = 1; //Set the direction to 1 == output
-    LED_YE_R_DIR = 1; //Set the direction to 1 == output
+	 _linkLed =  linkLed;
+	_speedLed = speedLed;
 }

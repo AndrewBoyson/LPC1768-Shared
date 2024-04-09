@@ -16,8 +16,6 @@
 
 bool NtpServerEnable  = false;
 
-char* NtpServerName = "";
-
 static int getPrecision()
 {
     /*
@@ -57,7 +55,7 @@ static char* getIdent()
 {
     if (!ClkTimeIsSet()  ) return "INIT";
     if (!ClkGovIsSynced()) return "LOCL";
-    return NtpServerName;
+    return NetName;
 }
 static uint64_t getRefNtp()
 {

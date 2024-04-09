@@ -13,9 +13,10 @@
 
 bool NtpTrace = false;
 
-void NtpInit()
+void NtpInit(char ntpEnable)
 {
    NtpClientInit();
+   NtpServerEnable = ntpEnable;
 }
 
 void NtpLogHeader(char* pPacket)

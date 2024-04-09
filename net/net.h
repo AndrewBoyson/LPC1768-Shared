@@ -1,6 +1,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+extern char* NetName;
+
 extern bool NetTraceStack;
 extern bool NetTraceNewLine;
 extern bool NetTraceVerbose;
@@ -20,7 +22,7 @@ extern void    NetDirect16(void* h, void* n);
 extern void    NetDirect32(void* h, void* n);
 extern void    NetDirect64(void* h, void* n);
 
-extern void NetInit(void);
+extern void NetInit(char* name, void (* linkLed)(char on), void (*speedLed)(char on), char ntpEnable);
 extern void NetMain(void);
 
 #define FAULT_POINT_NetMain                   1

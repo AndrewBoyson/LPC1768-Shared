@@ -5,7 +5,6 @@
 #include "log/log.h"
 #include "lpc1768/mstimer/mstimer.h"
 #include "net/net.h"
-#include "net-this/net-this.h"
 #include "net/action.h"
 #include "net/eth/eth.h"
 #include "net/ip4/ip4addr.h"
@@ -267,7 +266,7 @@ int makeRequest(void* pPacket, uint8_t type, uint32_t ciaddr, uint32_t requested
     *p++ = 53; *p++ = 1; *p++ = type;                  //DHCP message type
     if (requestedIp) writeIp(50, requestedIp, &p);     //Requested IP
     if (   serverId) writeIp(54,    serverId, &p);     //Server ip
-    writeText(12, NET_NAME, &p);                       //Host name
+    writeText(12, NetName, &p);                        //Host name
     *p++ = 255;                                        //End of options
     
     return DHCP_HEADER_LENGTH + p - pOptions;
