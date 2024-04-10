@@ -20,6 +20,8 @@ SECTIONS
 	
 	.ethram (NOLOAD) :
 	{
+		*(.ethram)
+		*(.persist)
 	} >ethram
 	
 	.text :
@@ -33,16 +35,7 @@ SECTIONS
 		*(.glue_7)
 		*(.glue_7t)
 		*(.ARM*)
-/*		*(.vfp11_veneer)
-		*(.v4_bx)
-*/
 	} >flash
-	
-	.persist (NOLOAD) :
-	{
-		*(.persist)
-	} >sram
-	. = ALIGN(4);
 
 	.data :
 	{
@@ -54,7 +47,7 @@ SECTIONS
 	. = ALIGN(4);
 	_edata = .;
 	
-	.bss :
+	.bss (NOLOAD) :
 	{
 		_sbss = .;
 		*(.bss)
@@ -63,8 +56,9 @@ SECTIONS
 	. = ALIGN(4);
 	_ebss = .;
 	_heap = .;	/* Define our heap after data and bss sections in SRAM */
+	
+	/DISCARD/ :
+	{
+		*(.debug*)
+	}
 }
-
-_end = .;
-PROVIDE(end = .);
-
