@@ -4,8 +4,8 @@
 
 #define BLINK_DURATION_MS 50
 
-void (* _linkLed)(char on) = 0; //Initialised from a routine in the application
-void (*_speedLed)(char on) = 0; //Initialised from a routine in the application
+static void (* _linkLed)(char on) = 0; //Initialised from a routine in the application
+static void (*_speedLed)(char on) = 0; //Initialised from a routine in the application
 
 void JackLeds(bool phyLink, bool phySpeed, bool activity)
 {
