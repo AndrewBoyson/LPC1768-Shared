@@ -1,4 +1,5 @@
-#include "web-this/web-site-name.h"
+//#include "web-this/web-site-name.h"
+#include "web/web.h"
 
 #define SESSION_LIFE 10 * 365 * 24 * 60 * 60
 
@@ -18,7 +19,9 @@ void WebLoginSessionNameCreate()
     while (1)
     {
         if (i >= sizeof(sessionName) - 4 - 1) break; //Leave room for the "_sid" and the terminating NUL character
-        char c = WEB_SITE_NAME[j++];
+        //char c = WEB_SITE_NAME[j++];
+		if (!WebSiteName) break;                     //Stop if web site name has not been set
+        char c = WebSiteName[j++];
         if (!c) break;                               //Stop if run out of site name
         if (c >= 'A' && c <= 'Z') c |= 0x20;         //Make lower case
         if (c < 'a' || c > 'z') continue;            //Skip anything other than letters

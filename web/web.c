@@ -1,8 +1,10 @@
+#include <stdbool.h>
+
 #include "web/web.h"
 #include "web/http/http.h"
 #include "web/http/http-connection.h"
 #include "web/base/web-server-base.h"
-#include "web-this/web-server-this.h"
+//#include "web-this/web-server-this.h"
 #include "web/base/web-pages-base.h"
 #include "log/log.h"
 #include "lpc1768/mstimer/mstimer.h"
@@ -13,13 +15,22 @@
 
 bool WebTrace = false;
 
+int  (*WebHookDecideWhatToDo)(char *pPath, char* pLastModified) = 0; //returns todo
+bool (*WebHookHandleQuery   )(int todo   , char* pQuery       ) = 0; //returns true if todo handled
+bool (*WebHookPost          )(int todo, int contentLength, int contentStart, int size, char* pRequestStream, uint32_t positionInRequestStream, bool* pComplete) = 0; //returns true if todo handled
+bool (*WebHookReply         )(int todo) = 0; //returns true if todo handled
+
+void (*WebHookAddNav        )(int page) = 0;
+char*  WebSiteName = 0;
+
 int WebDecideWhatToDo(char *pPath, char* pLastModified)
 {
     if (HttpSameStr(pPath, "/login")) return DO_LOGIN;
     
     int todo;
     todo = WebServerBaseDecideWhatToDo(pPath, pLastModified); if (todo != DO_NOT_FOUND) return todo;
-    todo = WebServerThisDecideWhatToDo(pPath, pLastModified); if (todo != DO_NOT_FOUND) return todo;
+    //todo = WebServerThisDecideWhatToDo(pPath, pLastModified); if (todo != DO_NOT_FOUND) return todo;;
+    if (WebHookDecideWhatToDo) todo = WebHookDecideWhatToDo(pPath, pLastModified); if (todo != DO_NOT_FOUND) return todo;
     return DO_NOT_FOUND;
 }
 int WebHandleQuery(char* pQuery, char* pCookies, int* pTodo, uint32_t* pDelayUntil) //return -1 on stop; 0 on continue
@@ -52,14 +63,16 @@ int WebHandleQuery(char* pQuery, char* pCookies, int* pTodo, uint32_t* pDelayUnt
         return -1; //Ignore any query or post as the user is not authenticated
     }
 
-    if (WebServerBaseHandleQuery(*pTodo, pQuery)) return 0;
-    if (WebServerThisHandleQuery(*pTodo, pQuery)) return 0;
+    if (            WebServerBaseHandleQuery(*pTodo, pQuery)) return 0;
+    //if (WebServerThisHandleQuery(*pTodo, pQuery)) return 0;
+    if (WebHookHandleQuery && WebHookHandleQuery(*pTodo, pQuery)) return 0;
     return 0;
 }
 void WebHandlePost(int todo, int contentLength, int contentStart, int size, char* pRequestStream, uint32_t positionInRequestStream, bool* pComplete)
 {
     if (WebServerBasePost(todo, contentLength, contentStart, size, pRequestStream, positionInRequestStream, pComplete)) return;
-    if (WebServerThisPost(todo, contentLength, contentStart, size, pRequestStream, positionInRequestStream, pComplete)) return;
+    //if (WebServerThisPost(todo, contentLength, contentStart, size, pRequestStream, positionInRequestStream, pComplete)) return;
+    if (WebHookPost && WebHookPost(todo, contentLength, contentStart, size, pRequestStream, positionInRequestStream, pComplete)) return;
     *pComplete = true;
 }
 
@@ -90,10 +103,12 @@ void WebAddResponse(int todo)
     
     //If not called then call the derived (child) module
     if (WebServerBaseReply(todo)) return;
-    if (WebServerThisReply(todo)) return;
+	//if (WebServerThisReply(todo)) return;
+	if (WebHookReply && WebHookReply(todo)) return;
 }
 
-void WebInit()
-{   
+void WebInit(char* name)
+{
+	WebSiteName = name;
     WebLoginInit();  
 }

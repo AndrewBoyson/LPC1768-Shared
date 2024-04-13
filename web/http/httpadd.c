@@ -46,6 +46,7 @@ void HttpAddFillChar (char c, int length)
 }
 int  HttpAddText  (const char* text)
 {
+	if (!text) return 0;
     const char* start = text;
     while (*text)
     {
@@ -56,6 +57,7 @@ int  HttpAddText  (const char* text)
 }
 int  HttpAddTextN (const char* text, int bufferLength)
 {
+	if (!text) return 0;
     const char* start = text;
     while (*text && text - start < bufferLength)
     {
