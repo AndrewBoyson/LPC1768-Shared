@@ -3,11 +3,11 @@
 #include "web.h"
 #include "http/http.h"
 #include "base/web-nav-base.h"
-//#include "web-this/web-nav-this.h"
-//#include "web-this/web-site-name.h"
 #include "net/eth/mac.h"
 #include "net/ip4/ip4addr.h"
 #include "net/ip6/ip6addr.h"
+
+extern void WebNavThis(int page);
 
 void WebAddNavItem(int highlight, const char* href, const char* title)
 {
@@ -27,8 +27,7 @@ void WebAddNav(int page)
     HttpAddText("<a class='tab-shortcut' href='#main-content'>Skip to content</a>\r\n");
 
     HttpAddText("<nav><ul>\r\n");
-	//WebNavThis(page);
-    if (WebHookAddNav) WebHookAddNav(page);
+	WebNavThis(page);
     WebNavBase(page);
     HttpAddText("</ul></nav>\r\n");
 }
@@ -39,7 +38,6 @@ void WebAddHeader(const char* title, const char* style, const char* script)
                      "<html>\r\n"
                      "<head>\r\n");
     HttpAddText("   <title>");
-    //HttpAddText(WEB_SITE_NAME);
     HttpAddText(WebSiteName);
     if (title)
     {
@@ -70,7 +68,6 @@ void WebAddHeader(const char* title, const char* style, const char* script)
 void WebAddH1(const char* pageName)
 {
     HttpAddText("<h1 id='main-content'>");
-    //HttpAddText(WEB_SITE_NAME);
     HttpAddText(WebSiteName);
     HttpAddText(" - ");
     HttpAddText(pageName);

@@ -3,5 +3,5 @@
 extern bool LinkTrace;
 
 extern void LinkMain(void);
-extern void LinkInit(void (* linkLed)(char on), void (*speedLed)(char on));
+extern void LinkInit(void);
 

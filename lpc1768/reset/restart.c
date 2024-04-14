@@ -15,7 +15,7 @@ void Restart(unsigned cause, unsigned pc)
 {
 	_cause = cause;
 	_pc    = pc;
-	if (cause == RESTART_CAUSE_RELOAD_PROGRAM) SemihostReset();    //Reset everything to allow the boot loader to run
+	if (cause == RESTART_CAUSE_SEMIHOST_RESET) SemihostReset();    //Reset everything to allow the boot loader to run
 	else                                       AIRCR = 0x05FA0004; //System reset request - just processor
 	while(1) {;} //Wait
 }
@@ -48,7 +48,7 @@ const char* RestartGetCauseString()
     switch (lastCause)
     {
         case RESTART_CAUSE_RESET_BUTTON:     return "Reset button";
-        case RESTART_CAUSE_RELOAD_PROGRAM:   return "Reload";
+        case RESTART_CAUSE_SEMIHOST_RESET:   return "Semihost reset";
         case RESTART_CAUSE_HARD_FAULT:       return "Hard fault";
         case RESTART_CAUSE_DEFAULT_HANDLER:  return "Default handler";
         case RESTART_CAUSE_WATCHDOG_HANDLER: return "Watchdog";

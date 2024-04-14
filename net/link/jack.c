@@ -4,31 +4,22 @@
 
 #define BLINK_DURATION_MS 50
 
-static void (* _linkLed)(char on) = 0; //Initialised from a routine in the application
-static void (*_speedLed)(char on) = 0; //Initialised from a routine in the application
+extern void NetThisLinkLed (char on);
+extern void NetThisSpeedLed(char on);
 
 void JackLeds(bool phyLink, bool phySpeed, bool activity)
 {
     static int blinkTimer = 0;
-	
-	if (! _linkLed) return;
-	if (!_speedLed) return;
     
     if (activity) blinkTimer = MsTimerCount;
     if (MsTimerRelative(blinkTimer, BLINK_DURATION_MS))
     {
-        if (phyLink )  _linkLed(1); else  _linkLed(0);
-        if (phySpeed) _speedLed(1); else _speedLed(0);
+        if (phyLink )  NetThisLinkLed(1); else  NetThisLinkLed(0);
+        if (phySpeed) NetThisSpeedLed(1); else NetThisSpeedLed(0);
     }
     else
     {
-         _linkLed(0);
-        _speedLed(0);
+         NetThisLinkLed(0);
+        NetThisSpeedLed(0);
     }
-}
-
-void JackInit(void (* linkLed)(char on), void (*speedLed)(char on))
-{
-	 _linkLed =  linkLed;
-	_speedLed = speedLed;
 }

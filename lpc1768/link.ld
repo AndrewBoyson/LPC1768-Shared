@@ -4,10 +4,10 @@ ENTRY(main)
 
 MEMORY
 {
-	flash   (rx) : ORIGIN = 0x00000000, LENGTH = 512K
-	sram   (rwx) : ORIGIN = 0x10000000, LENGTH =  32K
-	usbram ( rw) : ORIGIN = 0x2007c000, LENGTH =  16K
-	ethram ( rw) : ORIGIN = 0x20080000, LENGTH =  16K
+	flash  (rx) : ORIGIN = 0x00000000, LENGTH = 512K
+	sram   (rw) : ORIGIN = 0x10000000, LENGTH =  32K
+	usbram (rw) : ORIGIN = 0x2007c000, LENGTH =  16K
+	ethram (rw) : ORIGIN = 0x20080000, LENGTH =  16K
 }
 
 _stack = ORIGIN(sram) + LENGTH(sram); /* Define the top of our stack at the end of SRAM */

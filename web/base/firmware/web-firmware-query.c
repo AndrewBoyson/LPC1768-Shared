@@ -12,6 +12,6 @@ void WebFirmwareQuery(char* pQuery)
 		
         //int value = HttpQueryValueAsInt(pValue);    
         
-        if (HttpSameStr(pName, "restart")) Restart(RESTART_CAUSE_RELOAD_PROGRAM, 0);
+        if (HttpSameStr(pName, "restart")) Restart(RESTART_CAUSE_SEMIHOST_RESET, 0);
     }
 }
