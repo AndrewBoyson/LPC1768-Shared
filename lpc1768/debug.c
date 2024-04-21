@@ -1,6 +1,11 @@
 #include <stdlib.h>
 #include "serialpc.h"
 
+void DebugWriteChar(char c)
+{
+	SerialPcInit(115200);
+	while (1) { int r = SerialPcPutC(c); if (!r) break; }
+}
 void DebugWriteText(char* text)
 {
 	SerialPcInit(115200);

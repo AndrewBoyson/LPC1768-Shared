@@ -1,33 +1,4 @@
-//#include <stdbool.h>
-
-#include "gpio.h"
-
-#define LED1BIT 18
-#define LED2BIT 20
-#define LED3BIT 21
-#define LED4BIT 23
-
-#define LED1DIR FIO1DIR(LED1BIT)
-#define LED2DIR FIO1DIR(LED2BIT)
-#define LED3DIR FIO1DIR(LED3BIT)
-#define LED4DIR FIO1DIR(LED4BIT)
-
-#define LED1PIN FIO1PIN(LED1BIT)
-#define LED2PIN FIO1PIN(LED2BIT)
-#define LED3PIN FIO1PIN(LED3BIT)
-#define LED4PIN FIO1PIN(LED4BIT)
-
-#define LED1SET FIO1SET(LED1BIT)
-#define LED1CLR FIO1CLR(LED1BIT)
-
-#define LED2SET FIO1SET(LED2BIT)
-#define LED2CLR FIO1CLR(LED2BIT)
-
-#define LED3SET FIO1SET(LED3BIT)
-#define LED3CLR FIO1CLR(LED3BIT)
-
-#define LED4SET FIO1SET(LED4BIT)
-#define LED4CLR FIO1CLR(LED4BIT)
+#include "led.h"
 
 void LedInit()
 {
@@ -36,10 +7,10 @@ void LedInit()
     LED3DIR = 1;
     LED4DIR = 1;
 }
-void Led1Set(char value) { if (value) LED1SET; else LED1CLR; }
-void Led2Set(char value) { if (value) LED2SET; else LED2CLR; }
-void Led3Set(char value) { if (value) LED3SET; else LED3CLR; }
-void Led4Set(char value) { if (value) LED4SET; else LED4CLR; }
+void Led1Set(char value) { LED1DIR = 1; if (value) LED1SET; else LED1CLR; }
+void Led2Set(char value) { LED2DIR = 1; if (value) LED2SET; else LED2CLR; }
+void Led3Set(char value) { LED3DIR = 1; if (value) LED3SET; else LED3CLR; }
+void Led4Set(char value) { LED4DIR = 1; if (value) LED4SET; else LED4CLR; }
 
 void Led1Tgl() { if (LED1PIN) LED1CLR; else LED1SET; }
 void Led2Tgl() { if (LED2PIN) LED2CLR; else LED2SET; }

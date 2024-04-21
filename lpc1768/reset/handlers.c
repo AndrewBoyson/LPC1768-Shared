@@ -1,6 +1,7 @@
 
 #include "restart.h"
 #include "lpc1768/debug.h"
+#include "lpc1768/led.h"
 
 static void debugFault(uint32_t *stackAddress)
 {
@@ -22,23 +23,25 @@ volatile uint32_t psr;/* Program status register. */
     pc  = stackAddress[6];
     psr = stackAddress[7];
 	
-	DebugWriteText("r0  = "); DebugWriteHex(r0 ); DebugWriteText("\r");
-	DebugWriteText("r1  = "); DebugWriteHex(r1 ); DebugWriteText("\r");
-	DebugWriteText("r2  = "); DebugWriteHex(r2 ); DebugWriteText("\r");
-	DebugWriteText("r3  = "); DebugWriteHex(r3 ); DebugWriteText("\r");
-	DebugWriteText("r12 = "); DebugWriteHex(r12); DebugWriteText("\r");
-	DebugWriteText("LR  = "); DebugWriteHex(lr ); DebugWriteText("\r");
-	DebugWriteText("PC  = "); DebugWriteHex(pc ); DebugWriteText("\r");
-	DebugWriteText("xPSR= "); DebugWriteHex(psr); DebugWriteText("\r");
+	DebugWriteText("r0  = "); DebugWriteHex(r0 ); DebugWriteChar('\r');
+	DebugWriteText("r1  = "); DebugWriteHex(r1 ); DebugWriteChar('\r');
+	DebugWriteText("r2  = "); DebugWriteHex(r2 ); DebugWriteChar('\r');
+	DebugWriteText("r3  = "); DebugWriteHex(r3 ); DebugWriteChar('\r');
+	DebugWriteText("r12 = "); DebugWriteHex(r12); DebugWriteChar('\r');
+	DebugWriteText("LR  = "); DebugWriteHex(lr ); DebugWriteChar('\r');
+	DebugWriteText("PC  = "); DebugWriteHex(pc ); DebugWriteChar('\r');
+	DebugWriteText("xPSR= "); DebugWriteHex(psr); DebugWriteChar('\r');
+	DebugWriteChar('\r');
+	DebugWriteChar('\r');
 }
 static uint32_t extractPC(uint32_t *stackAddress)
 {
 	return stackAddress[6];
 }
 
-void hardFaultHandler(uint32_t *stackAddress) {	debugFault(stackAddress); Restart(RESTART_CAUSE_HARD_FAULT      , extractPC(stackAddress)); }
-void  watchdogHandler(uint32_t *stackAddress) {	debugFault(stackAddress); Restart(RESTART_CAUSE_WATCHDOG_HANDLER, extractPC(stackAddress)); }
-void   defaultHandler(uint32_t *stackAddress) {	debugFault(stackAddress); Restart(RESTART_CAUSE_DEFAULT_HANDLER , extractPC(stackAddress)); }
+void hardFaultHandler(uint32_t *stackAddress) {	LED3DIR = 1; LED3SET; debugFault(stackAddress); Restart(RESTART_CAUSE_HARD_FAULT      , extractPC(stackAddress)); }
+void  watchdogHandler(uint32_t *stackAddress) {	LED2DIR = 1; LED2SET; debugFault(stackAddress); Restart(RESTART_CAUSE_WATCHDOG_HANDLER, extractPC(stackAddress)); }
+void   defaultHandler(uint32_t *stackAddress) {	LED1DIR = 1; LED1SET; debugFault(stackAddress); Restart(RESTART_CAUSE_DEFAULT_HANDLER , extractPC(stackAddress)); }
 
  __attribute__((naked)) void HardFaultHandler(void)
 {
