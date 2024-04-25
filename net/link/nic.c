@@ -4,6 +4,7 @@
 #include "lpc1768/semihost.h"
 #include "lpc1768/led.h"
 #include "lpc1768/debug.h"
+#include "lpc1768/register.h"
 #include "log/log.h"
 
 #define NUM_RX_FRAMES       6           // Number of Rx Frames (== packets) was 3
@@ -208,7 +209,19 @@ int NicInit()
     volatile int tout; //This will hopefully prevent the short delays from being optimised out
     char mac[6];
     unsigned int clock = 10; //96,000,000
-    
+	
+    PCONP   |= 1U << 30; //ENET                 
+    PINSEL2 |= 1U <<  0; //P1.00 01 ENET_TXD0
+    PINSEL2 |= 1U <<  2; //P1.01 01 ENET_TXD1
+    PINSEL2 |= 1U <<  8; //P1.04 01 ENET_TX_EN
+    PINSEL2 |= 1U << 16; //P1.08 01 ENET_CRS
+    PINSEL2 |= 1U << 18; //P1.09 01 ENET_RXD0
+    PINSEL2 |= 1U << 20; //P1.10 01 ENET_RXD1
+    PINSEL2 |= 1U << 28; //P1.14 01 ENET_RX_ER
+    PINSEL2 |= 1U << 30; //P1.15 01 ENET_REF_CLK
+    PINSEL3 |= 1U <<  0; //P1.16 01 ENET_MDC
+    PINSEL3 |= 1U <<  2; //P1.17 01 ENET_MDIO
+	
     // Reset all EMAC internal modules.
     MAC1    = MAC1_RES_TX | MAC1_RES_MCS_TX | MAC1_RES_RX | MAC1_RES_MCS_RX | MAC1_SIM_RES | MAC1_SOFT_RES;
     COMMAND = CR_REG_RES | CR_TX_RES | CR_RX_RES | CR_PASS_RUNT_FRM;

@@ -1,4 +1,5 @@
 #include "system.h"
+#include "gpio.h"
 #include "led.h"
 #include "reset/reset.h"
 #include "firmware.h"
@@ -12,6 +13,7 @@
 void Lpc1768Init()
 {
       SystemInit();
+	    GpioInit();
          LedInit();
        ResetInit();
        MsRitInit();

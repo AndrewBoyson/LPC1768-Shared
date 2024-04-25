@@ -1,5 +1,5 @@
 
-void Startup()
+void CrtInit()
 {
 	extern long _sbss, _ebss, _sdata, _edata, _sidata;
 	for (long *dst = &_sbss                  ; dst < &_ebss ; ) *dst++ = 0;

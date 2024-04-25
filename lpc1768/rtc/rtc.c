@@ -1,21 +1,7 @@
 #include <time.h>
 #include <stdbool.h>
 
-#define ILR   (*((volatile unsigned *) 0x40024000))
-#define CCR   (*((volatile unsigned *) 0x40024008))
-#define CIIR  (*((volatile unsigned *) 0x4002400C))
-#define AMR   (*((volatile unsigned *) 0x40024010))
-#define AUX   (*((volatile unsigned *) 0x4002405C))
-#define AUXEN (*((volatile unsigned *) 0x40024058))
-
-#define SEC   (*((volatile unsigned *) 0x40024020))
-#define MIN   (*((volatile unsigned *) 0x40024024))
-#define HOUR  (*((volatile unsigned *) 0x40024028))
-#define DOM   (*((volatile unsigned *) 0x4002402C))
-#define DOW   (*((volatile unsigned *) 0x40024030))
-#define DOY   (*((volatile unsigned *) 0x40024034))
-#define MONTH (*((volatile unsigned *) 0x40024038))
-#define YEAR  (*((volatile unsigned *) 0x4002403C))
+#include "lpc1768/register.h"
 
 bool  RtcIsSet()     { return !(AUX & 0x10); } //27.6.2.5 RTC Auxiliary control register - RTC Oscillator Fail detect flag
 bool  RtcPowerLost() { return   AUX & 0x10 ; } //27.6.2.5 RTC Auxiliary control register - RTC Oscillator Fail detect flag
@@ -48,6 +34,8 @@ void RtcSetTm(struct tm* ptm)
 }
 void RtcInit()
 {
+    PCONP |= 1 <<  9; //RTC
+	
     CCR   =    1;    //27.6.2.2 Clock Control Register - enable the time counters (CLKEN bit 0 = 1); no reset (CTCRST bit 1 = 0); enable calibration counter (CCALEN bit 4 = 0)
     CIIR  =    0;    //27.6.2.3 Counter Increment Interrupt Register - set to not interrupt
     AMR   = 0xFF;    //27.6.2.4 Alarm Mask Register - mask all alarms
