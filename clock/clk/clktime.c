@@ -1,13 +1,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "../../lpc1768/rtc/rtc.h"
-#include "../../lpc1768/tm/tm.h"
-#include "../../lpc1768/hrtimer/hrtimer.h"
-#include "../../lpc1768/interrupts.h"
-#include "../../lpc1768/led.h"
-#include "../../log/log.h"
-#include "clk.h"
+#include "lpc1768/hrtimer/hrtimer.h"
+#include "lpc1768/interrupts.h"
 #include "clktime.h"
 #include "clkgov.h"
 
@@ -23,7 +18,6 @@ clktime ClkTimeGet()
 {
     return tickCount + slewCount + HrTimerProRata(CLK_TIME_ONE_SECOND + ClkGovGetPpb() + ClkGovGetSlew(), HrTimerSince(hrTimerAtLastIncrement));
 }
-
 void ClkTimeSet(clktime extClock)
 {    
      clktime timerCountSinceLastSecond = HrTimerSince(hrTimerAtLastIncrement);

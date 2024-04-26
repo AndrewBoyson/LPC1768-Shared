@@ -20,7 +20,7 @@ void RtcGetTm(struct tm* ptm)
 }
 void RtcSetTm(struct tm* ptm)
 {
-    CCR     = 2;                   //Stop and reset the divider (CTCRST bit 1 = 1)
+    CCR     = 2;                   //Stop and reset the divider (CLKEN bit 0 = 0, CTCRST bit 1 = 1)
     SEC     = ptm->tm_sec;         // 0 --> 59
     MIN     = ptm->tm_min;         // 0 --> 59
     HOUR    = ptm->tm_hour;        // 0 --> 23
@@ -30,15 +30,16 @@ void RtcSetTm(struct tm* ptm)
     DOW     = ptm->tm_wday;        // 0 --> 6 where 0 == Sunday
     DOY     = ptm->tm_yday + 1;    // rtc 1 --> 366;     tm 0 --> 365 
     AUX     = 0x10;                //27.6.2.5 RTC Auxiliary control register - RTC Oscillator Fail detect flag - Writing a 1 to this bit clears the flag.
-    CCR     = 1;                   //Release the divider (CTCRST bit 1 = 0)
+    CCR     = 1;                   //Release the divider (CLKEN bit 0 = 1, CTCRST bit 1 = 0)
 }
 void RtcInit()
 {
     PCONP |= 1 <<  9; //RTC
 	
-    CCR   =    1;    //27.6.2.2 Clock Control Register - enable the time counters (CLKEN bit 0 = 1); no reset (CTCRST bit 1 = 0); enable calibration counter (CCALEN bit 4 = 0)
-    CIIR  =    0;    //27.6.2.3 Counter Increment Interrupt Register - set to not interrupt
-    AMR   = 0xFF;    //27.6.2.4 Alarm Mask Register - mask all alarms
-    AUXEN =    0;    //27.6.2.6 RTC Auxiliary Enable register - mask the oscillator stopped interrupt
-    ILR   =    3;    //27.6.2.1 Interrupt Location Register - Clear all interrupts
+	CALIBRATION =    0; //27.6.4.2 Calibration register - disabled if 0 even if enable calibration counter (CCALEN bit 4 = 0)
+    CCR         =    1; //27.6.2.2 Clock Control Register - enable the time counters (CLKEN bit 0 = 1); no reset (CTCRST bit 1 = 0)
+    CIIR        =    0; //27.6.2.3 Counter Increment Interrupt Register - set to not interrupt
+    AMR         = 0xFF; //27.6.2.4 Alarm Mask Register - mask all alarms
+    AUXEN       =    0; //27.6.2.6 RTC Auxiliary Enable register - mask the oscillator stopped interrupt
+    ILR         =    3; //27.6.2.1 Interrupt Location Register - Clear all interrupts
 }

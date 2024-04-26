@@ -83,71 +83,79 @@
 #define U1_TRANSMIT_HOLDING_REGISTER_EMPTY BIT_BAND4(U1LSR_ADDR,  5) //Transmitter Holding Register Empty
 
 //RIT - heating push button debounce
-#define RICOMPVAL (*((volatile unsigned *) 0x400B0000)) //Compare register R/W 0xFFFF FFFF
-#define RIMASK    (*((volatile unsigned *) 0x400B0004)) //Mask    register R/W 0
-#define RICTRL    (*((volatile unsigned *) 0x400B0008)) //Control register R/W 0xC
-#define RICOUNTER (*((volatile unsigned *) 0x400B000C)) //32-bit  counter  R/W 0
+#define RICOMPVAL   (*((volatile unsigned *) 0x400B0000)) //Compare register R/W 0xFFFF FFFF
+#define RIMASK      (*((volatile unsigned *) 0x400B0004)) //Mask    register R/W 0
+#define RICTRL      (*((volatile unsigned *) 0x400B0008)) //Control register R/W 0xC
+#define RICOUNTER   (*((volatile unsigned *) 0x400B000C)) //32-bit  counter  R/W 0
 
 //PWM1 - heating pump speed
-#define PWM1TCR   (*((volatile unsigned *) 0x40018004))
-#define PWM1TC    (*((volatile unsigned *) 0x40018008))
-#define PWM1PR    (*((volatile unsigned *) 0x4001800C))
-#define PWM1MCR   (*((volatile unsigned *) 0x40018014))
-#define PWM1MR0   (*((volatile unsigned *) 0x40018018))
-#define PWM1MR1   (*((volatile unsigned *) 0x4001801C))
-#define PWM1PCR   (*((volatile unsigned *) 0x4001804C))
-#define PWM1LER   (*((volatile unsigned *) 0x40018050))
-#define PWM1CTCR  (*((volatile unsigned *) 0x40018070))
+#define PWM1TCR     (*((volatile unsigned *) 0x40018004))
+#define PWM1TC      (*((volatile unsigned *) 0x40018008))
+#define PWM1PR      (*((volatile unsigned *) 0x4001800C))
+#define PWM1MCR     (*((volatile unsigned *) 0x40018014))
+#define PWM1MR0     (*((volatile unsigned *) 0x40018018))
+#define PWM1MR1     (*((volatile unsigned *) 0x4001801C))
+#define PWM1PCR     (*((volatile unsigned *) 0x4001804C))
+#define PWM1LER     (*((volatile unsigned *) 0x40018050))
+#define PWM1CTCR    (*((volatile unsigned *) 0x40018070))
 
 //TIM0 - hrtimer and hence mstimer and clock
-#define T0TCR     (*((volatile unsigned *) 0x40004004))
-#define T0TC      (*((volatile unsigned *) 0x40004008))
-#define T0PR      (*((volatile unsigned *) 0x4000400C))
-#define T0MCR     (*((volatile unsigned *) 0x40004014))
-#define T0CTCR    (*((volatile unsigned *) 0x40004070))
+#define T0TCR       (*((volatile unsigned *) 0x40004004))
+#define T0TC        (*((volatile unsigned *) 0x40004008))
+#define T0PR        (*((volatile unsigned *) 0x4000400C))
+#define T0MCR       (*((volatile unsigned *) 0x40004014))
+#define T0CTCR      (*((volatile unsigned *) 0x40004070))
 
 //TIM1 - gps nmea interface
 #define T1IR_ADDR 0x40008000
 
-#define T1IR      (*((volatile unsigned *) T1IR_ADDR))
-#define T1TCR     (*((volatile unsigned *) 0x40008004))
-#define T1TC      (*((volatile unsigned *) 0x40008008))
-#define T1PR      (*((volatile unsigned *) 0x4000800C))
-#define T1MCR     (*((volatile unsigned *) 0x40008014))
-#define T1MR0     (*((volatile unsigned *) 0x40008018))
-#define T1MR1     (*((volatile unsigned *) 0x4000801C))
-#define T1MR2     (*((volatile unsigned *) 0x40008020))
-#define T1MR3     (*((volatile unsigned *) 0x40008024))
-#define T1CTCR    (*((volatile unsigned *) 0x40008070))
+#define T1IR        (*((volatile unsigned *) T1IR_ADDR ))
+#define T1TCR       (*((volatile unsigned *) 0x40008004))
+#define T1TC        (*((volatile unsigned *) 0x40008008))
+#define T1PR        (*((volatile unsigned *) 0x4000800C))
+#define T1MCR       (*((volatile unsigned *) 0x40008014))
+#define T1MR0       (*((volatile unsigned *) 0x40008018))
+#define T1MR1       (*((volatile unsigned *) 0x4000801C))
+#define T1MR2       (*((volatile unsigned *) 0x40008020))
+#define T1MR3       (*((volatile unsigned *) 0x40008024))
+#define T1CTCR      (*((volatile unsigned *) 0x40008070))
 
 #define T1IR_MR0 BIT_BAND4(T1IR_ADDR, 0)
 #define T1IR_MR1 BIT_BAND4(T1IR_ADDR, 1)
 #define T1IR_MR2 BIT_BAND4(T1IR_ADDR, 2)
 #define T1IR_MR3 BIT_BAND4(T1IR_ADDR, 3)
 
+//WDT
+#define WDMOD    *((volatile unsigned *) 0x40000000) //Mode
+#define WDTC     *((volatile unsigned *) 0x40000004) //Timer constant
+#define WDFEED   *((volatile unsigned *) 0x40000008) //Writing 0xAA followed by 0x55 here reloads the Watchdog timer with the value contained in WDTC.
+#define WDCLKSEL *((volatile unsigned *) 0x40000010) //Clock source selection
+
 //SSP1 - fram
-#define SSP1CR0   (*((volatile unsigned *) 0x40030000))
-#define SSP1CR1   (*((volatile unsigned *) 0x40030004))
-#define SSP1DR    (*((volatile unsigned *) 0x40030008))
-#define SSP1SR    (*((volatile unsigned *) 0x4003000C))
-#define SSP1CPSR  (*((volatile unsigned *) 0x40030010))
+#define SSP1CR0     (*((volatile unsigned *) 0x40030000))
+#define SSP1CR1     (*((volatile unsigned *) 0x40030004))
+#define SSP1DR      (*((volatile unsigned *) 0x40030008))
+#define SSP1SR      (*((volatile unsigned *) 0x4003000C))
+#define SSP1CPSR    (*((volatile unsigned *) 0x40030010))
 
 // RTC
-#define ILR       (*((volatile unsigned *) 0x40024000))
-#define CCR       (*((volatile unsigned *) 0x40024008))
-#define CIIR      (*((volatile unsigned *) 0x4002400C))
-#define AMR       (*((volatile unsigned *) 0x40024010))
-#define AUX       (*((volatile unsigned *) 0x4002405C))
-#define AUXEN     (*((volatile unsigned *) 0x40024058))
+#define ILR         (*((volatile unsigned *) 0x40024000))
+#define CCR         (*((volatile unsigned *) 0x40024008))
+#define CIIR        (*((volatile unsigned *) 0x4002400C))
+#define AMR         (*((volatile unsigned *) 0x40024010))
+#define AUX         (*((volatile unsigned *) 0x4002405C))
+#define AUXEN       (*((volatile unsigned *) 0x40024058))
 
-#define SEC       (*((volatile unsigned *) 0x40024020))
-#define MIN       (*((volatile unsigned *) 0x40024024))
-#define HOUR      (*((volatile unsigned *) 0x40024028))
-#define DOM       (*((volatile unsigned *) 0x4002402C))
-#define DOW       (*((volatile unsigned *) 0x40024030))
-#define DOY       (*((volatile unsigned *) 0x40024034))
-#define MONTH     (*((volatile unsigned *) 0x40024038))
-#define YEAR      (*((volatile unsigned *) 0x4002403C))
+#define SEC         (*((volatile unsigned *) 0x40024020))
+#define MIN         (*((volatile unsigned *) 0x40024024))
+#define HOUR        (*((volatile unsigned *) 0x40024028))
+#define DOM         (*((volatile unsigned *) 0x4002402C))
+#define DOW         (*((volatile unsigned *) 0x40024030))
+#define DOY         (*((volatile unsigned *) 0x40024034))
+#define MONTH       (*((volatile unsigned *) 0x40024038))
+#define YEAR        (*((volatile unsigned *) 0x4002403C))
+#define CALIBRATION (*((volatile unsigned *) 0x40024040))
 
-#define ISER0     (*((volatile unsigned *) 0xE000E100))
+//Interrupt Set-Enable
+#define ISER0       (*((volatile unsigned *) 0xE000E100))
 

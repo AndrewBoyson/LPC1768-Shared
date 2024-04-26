@@ -21,7 +21,7 @@ static void oscInit()
     CCLKCFG   = 2;                 // bit 7:0 CCLKSEL: Divide value for the CPU clock (CCLK) from the PLL0 output. 2 == divide by 3
     
     //PLL0 Clock Source Select 4.5.13 step 4
-    CLKSRCSEL = 1;                 //01 selects the main oscillator; 00 (default) internal RC; 10 RTC
+    CLKSRCSEL = 1;                 //01 selects the main oscillator; 00 (default) internal RC (4MHz +/-1%); 10 RTC (32KHz)
     
     //PLLO Configuration 4.5.13 step 5
     PLL0CFG   = 11;                //MSEL0=11 == M=12 == multiply by 24; NSEL=0 == divide by 1

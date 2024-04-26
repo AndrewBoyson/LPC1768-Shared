@@ -27,11 +27,6 @@ void ClkNowAscii(char* p)
     ClkTimeToTmUtc(timeThisScan, &tm);
     sprintf(p, "%d-%02d-%02d %02d:%02d:%02d", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
 }
-void ClkInit()
-{
-    ClkGovInit();
-    ClkUtcInit();
-}
 
 void ClkMain()
 {
@@ -55,9 +50,9 @@ void ClkMain()
     if (ClkTimeIsSet())
     {
         //Save the time to the RTC on the second
-        static bool wasSecond = false;
+        static bool wasSecond = true;
         bool isSecond = timeThisScan & (1 << CLK_TIME_ONE_SECOND_SHIFT);
-        if (wasSecond && !isSecond)
+        if (isSecond && !wasSecond)
         {
             struct tm tm;
             ClkTimeToTmUtc(timeThisScan, &tm);
@@ -65,21 +60,19 @@ void ClkMain()
         }
         wasSecond = isSecond;
     }
-    else
-    {
-        //Start the clock from the RTC if not started
-        if (RtcIsSet())
-        {
-            static int lastRtcSecond = -1;
-            struct tm tm;
-            RtcGetTm(&tm);
-            if (lastRtcSecond > 0 && tm.tm_sec != lastRtcSecond)
-            {
-                timeThisScan = ClkTimeFromTmUtc(&tm);
-                ClkTimeSet(timeThisScan);
-                LogTimeF("Clock set from RTC\r\n");
-            }
-            lastRtcSecond = tm.tm_sec;
-        }
-    }
+}
+void ClkInit()
+{
+    ClkGovInit();
+    ClkUtcInit();
+	if (RtcIsSet())
+	{
+		struct tm tm;
+		RtcGetTm(&tm);
+        int initialRtcSecond = tm.tm_sec;
+		while (initialRtcSecond == tm.tm_sec) { RtcGetTm(&tm); } //Spin until rtc second changes
+        timeThisScan = ClkTimeFromTmUtc(&tm);
+		ClkTimeSet(timeThisScan);
+        LogTimeF("CLK set from RTC\r\n");
+	}
 }
