@@ -2,6 +2,8 @@ OUTPUT_FORMAT("elf32-littlearm")
 OUTPUT_ARCH(arm)
 ENTRY(main)
 
+PROVIDE(OneWireBusHandler = DefaultHandler); /*If OneWireBusHandler is not defined (in vectors) then substitute the DefaultHandler*/
+
 MEMORY
 {
 	flash  (rx) : ORIGIN = 0x00000000, LENGTH = 512K

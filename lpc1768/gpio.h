@@ -34,4 +34,5 @@
 #define FIO1DIR(BIT_PAR) BIT_BAND2(FIO1DIR_ADDR, BIT_PAR)
 #define FIO2DIR(BIT_PAR) BIT_BAND2(FIO2DIR_ADDR, BIT_PAR)
 
-void GpioInit(void);
+extern void (*GpioHook)(void);
+extern void GpioInit(void);
