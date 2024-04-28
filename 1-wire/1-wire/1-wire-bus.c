@@ -104,7 +104,7 @@ void OneWireBusInit()
     T1MCR     =    0; // 21.6.8 Match Control Register - Do nothing
     T1TCR     =    0; // 21.6.2 Timer Control Register - Disable TC and PC
     
-    ISER0  |= 0x04; //  6.5.1 bit2 == Interrupt set enable for timer 1.
+    ISER0     = 1 << 2; // 6.5.1 bit2 == Interrupt set enable for timer 1.
 }
 
 //Delays
