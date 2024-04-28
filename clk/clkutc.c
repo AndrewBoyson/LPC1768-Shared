@@ -1,8 +1,8 @@
 #include <stdint.h>
 
 #include "clktime.h"
-#include "../../lpc1768/tm/tm.h"
-#include "../../lpc1768/rtc/rtc.h"
+#include "lpc1768/tm/tm.h"
+#include "lpc1768/rtc/rtc.h"
 
 #define GPREG1 (*((volatile unsigned *) 0x40024048))
 

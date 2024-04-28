@@ -158,4 +158,5 @@
 
 //Interrupt Set-Enable
 #define ISER0       (*((volatile unsigned *) 0xE000E100))
+#define ICER0       (*((volatile unsigned *) 0xE000E180))
 

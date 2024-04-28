@@ -1,6 +1,6 @@
 #include "web/http/http.h"
-#include "clock/clk/clkgov.h"
-#include "clock/clk/clkutc.h"
+#include "clk/clkgov.h"
+#include "clk/clkutc.h"
 #include "settings/settings.h"
 
 void WebClockQuery(char* pQuery)

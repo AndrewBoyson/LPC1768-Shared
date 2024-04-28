@@ -1,9 +1,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "../../log/log.h"
-#include "../../lpc1768/tm/time64.h"
-#include "../../lpc1768/rtc/rtc.h"
+#include "log/log.h"
+#include "lpc1768/tm/time64.h"
+#include "lpc1768/rtc/rtc.h"
 #include "clktime.h"
 #include "clk.h"
 #include "clkutc.h"

@@ -3,13 +3,13 @@
 #include <stdbool.h>
 
 #include "log/log.h"
-#include "clock/clk/clk.h"
+#include "clk/clk.h"
+#include "clk/clktime.h"
+#include "clk/clkutc.h"
+#include "clk/clkgov.h"
+#include "clk/clktm.h"
 #include "lpc1768/mstimer/mstimer.h"
-#include "clock/clk/clktime.h"
 #include "ntptimestamp.h"
-#include "clock/clk/clkutc.h"
-#include "clock/clk/clkgov.h"
-#include "clock/clk/clktm.h"
 #include "net/net.h"
 #include "ntp.h"
 #include "ntphdr.h"

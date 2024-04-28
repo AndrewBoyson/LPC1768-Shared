@@ -1,10 +1,10 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#include "clock/clk/clk.h"
-#include "clock/clk/clkgov.h"
-#include "clock/clk/clktime.h"
-#include "clock/clk/clkutc.h"
+#include "clk/clk.h"
+#include "clk/clkgov.h"
+#include "clk/clktime.h"
+#include "clk/clkutc.h"
 #include "ntptimestamp.h"
 #include "ntp.h"
 #include "ntphdr.h"

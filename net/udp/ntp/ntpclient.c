@@ -1,7 +1,7 @@
 #include <stdbool.h>
 
 #include "ntpclient.h"
-#include "clock/clk/clkgov.h"
+#include "clk/clkgov.h"
 
 bool NtpClientTrace   = false;
 

@@ -4,10 +4,10 @@
 #include "web/http/http.h"
 #include "lpc1768/rtc/rtc.h"
 #include "lpc1768/scan/scan.h"
-#include "clock/clk/clk.h"
-#include "clock/clk/clktime.h"
-#include "clock/clk/clkgov.h"
-#include "clock/clk/clkutc.h"
+#include "clk/clk.h"
+#include "clk/clktime.h"
+#include "clk/clkgov.h"
+#include "clk/clkutc.h"
 #include "net/udp/ntp/ntpclient.h"
 
 void WebClockAjax()

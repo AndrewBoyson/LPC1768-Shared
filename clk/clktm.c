@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <time.h>
 
-#include "../../lpc1768/tm/tm.h"
+#include "lpc1768/tm/tm.h"
 #include "clktime.h"
 #include "clkutc.h"
 

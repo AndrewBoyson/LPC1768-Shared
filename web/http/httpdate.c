@@ -2,7 +2,7 @@
 
 #include "lpc1768/tm/tm.h"
 #include "http.h"
-#include "clock/clk/clk.h"
+#include "clk/clk.h"
 
 static void dateFromTm(struct tm* ptm, char* ptext)
 {

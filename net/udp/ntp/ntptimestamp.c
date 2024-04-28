@@ -1,8 +1,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "clock/clk/clktime.h"
-#include "clock/clk/clkutc.h"
+#include "clk/clktime.h"
+#include "clk/clkutc.h"
 
 #define SECONDS_BETWEEN_1900_AND_1970 2208988800ULL
 

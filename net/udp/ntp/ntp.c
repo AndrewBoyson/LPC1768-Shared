@@ -9,7 +9,7 @@
 #include "ntpclient.h"
 #include "ntpserver.h"
 #include "ntphdr.h"
-#include "clock/clk/clktime.h"
+#include "clk/clktime.h"
 
 bool NtpTrace = false;
 

@@ -2,7 +2,6 @@
 #include <stdbool.h>
 
 #include "log/log.h"
-#include "clock/clk/clk.h"
 #include "net/net.h"
 #include "net/action.h"
 #include "net/ip6/ip6.h"

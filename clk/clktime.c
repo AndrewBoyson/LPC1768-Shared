@@ -2,7 +2,7 @@
 #include <stdbool.h>
 
 #include "lpc1768/hrtimer/hrtimer.h"
-#include "lpc1768/interrupts.h"
+#include "lpc1768/gpio.h"
 #include "clktime.h"
 #include "clkgov.h"
 
@@ -24,27 +24,27 @@ void ClkTimeSet(clktime extClock)
      clktime fraction = (timerCountSinceLastSecond << CLK_TIME_ONE_SECOND_SHIFT) / HR_TIMER_COUNT_PER_SECOND;
      clktime    ticks = extClock - fraction;
 
-    InterruptsDisable();
+    GpioInterruptsDisable(); //Protect against a PPS interrupt
         tickCount = ticks;
         slewCount = 0;
-    InterruptsEnable();
+    GpioInterruptsEnable();
     
     countIsSet = true;
 }
 void ClkTimeAdjustSeconds(int seconds)
 {
-    InterruptsDisable();
+    GpioInterruptsDisable(); //Protect against a PPS interrupt
         tickCount += (clktime)seconds << CLK_TIME_ONE_SECOND_SHIFT;
-    InterruptsEnable();
+    GpioInterruptsEnable();
 }
 void ClkTimeIncrementByOneSecond(uint32_t startCount)
 {
-    InterruptsDisable();
+    GpioInterruptsDisable(); //Protect against a PPS interrupt
         hrTimerAtLastIncrement = startCount;
         tickCount += CLK_TIME_ONE_SECOND + ClkGovGetPpb();
         slewCount += ClkGovGetSlew();
         ClkGovSetSlew(0);
-    InterruptsEnable();
+    GpioInterruptsEnable();
 }
 
 static volatile  clktime  tickSnapshot;
@@ -59,6 +59,8 @@ void ClkTimeSaveSnapshot()
 }
 void ClkTimesGetFromSnapshot(clktime* pInt, clktime* pAbs)
 {
-    *pInt = tickSnapshot                + HrTimerProRata(CLK_TIME_ONE_SECOND + ClkGovGetPpb(),                   timerSnapshot);
-    *pAbs = tickSnapshot + slewSnapshot + HrTimerProRata(CLK_TIME_ONE_SECOND + ClkGovGetPpb() + ClkGovGetSlew(), timerSnapshot);
+    GpioInterruptsDisable(); //Protect against a PPS interrupt
+		*pInt = tickSnapshot                + HrTimerProRata(CLK_TIME_ONE_SECOND + ClkGovGetPpb(),                   timerSnapshot);
+		*pAbs = tickSnapshot + slewSnapshot + HrTimerProRata(CLK_TIME_ONE_SECOND + ClkGovGetPpb() + ClkGovGetSlew(), timerSnapshot);
+    GpioInterruptsEnable();
 }

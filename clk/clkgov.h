@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "../../lpc1768/tm/time64.h"
+#include "lpc1768/tm/time64.h"
 #include "clktime.h"
 
 extern bool ClkGovTrace;
