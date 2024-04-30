@@ -11,8 +11,8 @@
 #include "jack.h"
 #include "link.h"
 
-#define  LINK_PIN FIO1PIN(25)
-#define SPEED_PIN FIO1PIN(26)
+#define  LINK_PIN FIO1PIN_ALIAS(25)
+#define SPEED_PIN FIO1PIN_ALIAS(26)
 
 bool LinkTrace = false;
 

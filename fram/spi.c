@@ -2,9 +2,9 @@
 #include "lpc1768/gpio.h"
 #include "log/log.h"
 
-#define CS_DIR FIO0DIR(6)
-#define CS_SET FIO0SET(6)
-#define CS_CLR FIO0CLR(6)
+#define CS_DIR FIO0DIR_ALIAS(6)
+#define CS_SET FIO0SET_BIT(6)
+#define CS_CLR FIO0CLR_BIT(6)
 
 void SpiInit(void)
 {

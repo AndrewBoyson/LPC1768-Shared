@@ -5,7 +5,16 @@
 #include "lpc1768/gpio.h"
 #include "lpc1768/bitband.h"
 #include "lpc1768/register.h"
-#include "1-wire-this/1-wire-bus-pin.h"
+
+volatile unsigned* OneWireBusDirPtr = 0;
+volatile unsigned* OneWireBusPinPtr = 0;
+volatile unsigned* OneWireBusSetPtr = 0;
+volatile unsigned* OneWireBusClrPtr = 0;
+
+#define BUS_DIR *OneWireBusDirPtr
+#define BUS_PIN *OneWireBusPinPtr
+#define BUS_SET *OneWireBusSetPtr = 1
+#define BUS_CLR *OneWireBusClrPtr = 1
 
 volatile int OneWireBusValue;
 bool OneWireBusBusy()
