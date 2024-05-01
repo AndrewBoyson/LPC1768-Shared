@@ -1,4 +1,4 @@
-#include "lpc1768/bitband.h"
+#include "bitband.h"
 
 #define PCONP     (*((volatile unsigned *) 0x400FC0C4))
 #define PCLKSEL0  (*((volatile unsigned *) 0x400FC1A8))

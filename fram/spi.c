@@ -3,8 +3,8 @@
 #include "log/log.h"
 
 #define CS_DIR FIO0DIR_ALIAS(6)
-#define CS_SET FIO0SET_BIT(6)
-#define CS_CLR FIO0CLR_BIT(6)
+#define CS_SET FIO0SET_ALIAS(6) = 1
+#define CS_CLR FIO0CLR_ALIAS(6) = 1
 
 void SpiInit(void)
 {
