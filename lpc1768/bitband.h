@@ -3,8 +3,11 @@
 #define ALIAS2 0x22000000
 #define ALIAS4 0x42000000
 
-#define BIT_BAND2_PTR(ADDR_PAR, BIT_PAR) ((volatile unsigned *)(ALIAS2 + ((((ADDR_PAR - BASE2) << 3) + BIT_PAR) << 2)))
-#define BIT_BAND4_PTR(ADDR_PAR, BIT_PAR) ((volatile unsigned *)(ALIAS4 + ((((ADDR_PAR - BASE4) << 3) + BIT_PAR) << 2)))
+#define BIT_BAND2_ADDR(ADDR_PAR, BIT_PAR) (ALIAS2 + ((((ADDR_PAR - BASE2) << 3) + BIT_PAR) << 2))
+#define BIT_BAND4_ADDR(ADDR_PAR, BIT_PAR) (ALIAS4 + ((((ADDR_PAR - BASE4) << 3) + BIT_PAR) << 2))
+
+#define BIT_BAND2_PTR(ADDR_PAR, BIT_PAR) ((volatile unsigned *)BIT_BAND2_ADDR(ADDR_PAR, BIT_PAR))
+#define BIT_BAND4_PTR(ADDR_PAR, BIT_PAR) ((volatile unsigned *)BIT_BAND4_ADDR(ADDR_PAR, BIT_PAR))
 
 #define BIT_BAND2(ADDR_PAR, BIT_PAR) *BIT_BAND2_PTR(ADDR_PAR, BIT_PAR)
 #define BIT_BAND4(ADDR_PAR, BIT_PAR) *BIT_BAND4_PTR(ADDR_PAR, BIT_PAR)
