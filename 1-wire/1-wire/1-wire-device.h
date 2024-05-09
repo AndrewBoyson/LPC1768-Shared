@@ -10,4 +10,4 @@ extern void    DeviceParseAddress(char* pText, char *pAddress);
 extern int  DeviceScanMs;
 extern bool DeviceBusy(void);
 extern void DeviceInit(void);
-extern int  DeviceMain(void);
+extern void DeviceMain(void);

@@ -6,15 +6,15 @@
 #include "lpc1768/bitband.h"
 #include "lpc1768/register.h"
 
-volatile unsigned* OneWireBusDirPtr = 0;
-volatile unsigned* OneWireBusPinPtr = 0;
-volatile unsigned* OneWireBusSetPtr = 0;
-volatile unsigned* OneWireBusClrPtr = 0;
+volatile unsigned* _busDirPtr = 0;
+volatile unsigned* _busPinPtr = 0;
+volatile unsigned* _busSetPtr = 0;
+volatile unsigned* _busClrPtr = 0;
 
-#define BUS_DIR *OneWireBusDirPtr
-#define BUS_PIN *OneWireBusPinPtr
-#define BUS_SET *OneWireBusSetPtr = 1
-#define BUS_CLR *OneWireBusClrPtr = 1
+#define BUS_DIR *_busDirPtr
+#define BUS_PIN *_busPinPtr
+#define BUS_SET *_busSetPtr = 1
+#define BUS_CLR *_busClrPtr = 1
 
 volatile int OneWireBusValue;
 bool OneWireBusBusy()
@@ -102,8 +102,16 @@ static void start(uint32_t beforeFloat, uint32_t beforeRead, uint32_t beforeHigh
     if (now < OneWireBusLowTweak) OneWireBusLowTweak--;
 }
 
-void OneWireBusInit()
+void OneWireBusInit(char* pin)
 {
+	if (pin) //pin is null if just resetting the module
+	{
+		_busDirPtr = GpioDirPtr(pin);
+		_busPinPtr = GpioPinPtr(pin);
+		_busSetPtr = GpioSetPtr(pin);
+		_busClrPtr = GpioClrPtr(pin);
+	}
+	
     PCONP    |= 1 <<  2; //TIMER1
     PCLKSEL0 |= 1 <<  4; //TIM1
 	

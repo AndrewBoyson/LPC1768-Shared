@@ -9,8 +9,8 @@
 extern bool OneWireTrace;
 
 extern int  OneWireResult(void);
-extern void OneWireInit(void);
+extern void OneWireInit(char* pin);
 extern bool OneWireBusy(void);
 extern void OneWireExchange(int lenBytesToSend, int lenBytesToRecv, char *pBytesToSend, char *pBytesToRecv, int msToPullUp);
 extern void OneWireSearch(char command, char* pDeviceRomList, bool* pAllDevicesFound);
-extern int  OneWireMain(void);
+extern void OneWireMain(void);

@@ -56,8 +56,9 @@ void LinkMain()
     JackLeds(!LINK_PIN, !SPEED_PIN, activity);
 }
 
-void LinkInit()
+void LinkInit(char* linkLedPin, char* speedLedPin)
 {
+	JackInit(linkLedPin, speedLedPin);
     NicInit();
     NicLinkAddress(MacLocal);
     if (LinkTrace)

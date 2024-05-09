@@ -1,13 +1,8 @@
 #include <stdbool.h>
 
-extern volatile unsigned* OneWireBusDirPtr;
-extern volatile unsigned* OneWireBusPinPtr;
-extern volatile unsigned* OneWireBusSetPtr;
-extern volatile unsigned* OneWireBusClrPtr;
-
 extern volatile int OneWireBusValue;
 extern bool OneWireBusBusy(void);
-extern void OneWireBusInit(void);
+extern void OneWireBusInit(char* pin);
 extern void OneWireBusReset(void);
 extern void OneWireBusWriteBit(int bit);
 extern void OneWireBusWriteBitWithPullUp(int bit, int pullupms);

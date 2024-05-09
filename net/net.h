@@ -22,5 +22,5 @@ extern void    NetDirect16(void* h, void* n);
 extern void    NetDirect32(void* h, void* n);
 extern void    NetDirect64(void* h, void* n);
 
-extern void NetInit(char* name);
+extern void NetInit(char* name, char* linkLedPin, char* speedLedPin);
 extern void NetMain(void);

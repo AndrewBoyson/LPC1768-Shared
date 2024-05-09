@@ -130,9 +130,9 @@ static void establishDeviceScanMs()
         if (scanMs < DeviceScanMs) DeviceScanMs--;
     }
 }
-static int handlestate()
+static void handlestate()
 {
-    if (OneWireBusy()) return 0;
+    if (OneWireBusy()) return;
     static int device;
     switch (state)
     {
@@ -196,9 +196,8 @@ static int handlestate()
             
         default:
             LogF("Unknown DS18B20 state %d\r\n", state);
-            return -1;
+            break;
     }
-    return 0;
 }
 static void logcomms()
 {
@@ -217,12 +216,8 @@ void DeviceInit()
 {
     DS18B20Init();
 }
-int DeviceMain()
+void DeviceMain()
 {
-    
     if (OneWireTrace) logcomms();
-    
-    int r = handlestate(); if (r) return -1;
-    
-    return 0;
+    handlestate();
 }

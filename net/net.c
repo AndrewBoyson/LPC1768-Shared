@@ -155,10 +155,10 @@ void NetDirect64(void* h, void* n)
     *ph = *pn; ph++; pn++; // 6<-6
     *ph = *pn;             // 7<-7
 }
-void NetInit(char* name)
+void NetInit(char* name, char* linkLedPin, char* speedLedPin)
 {
 	NetName = name;
-        LinkInit();
+        LinkInit(linkLedPin, speedLedPin);
          TcpInit();
          Ar4Init();
          Ar6Init();

@@ -81,9 +81,9 @@ int OneWireResult()
 {
     return result;
 }
-void OneWireInit()
+void OneWireInit(char* pin)
 {
-    OneWireBusInit();
+    OneWireBusInit(pin);
     DeviceInit();
     state = WAIT_FOR_SOMETHING_TO_DO;
     result = ONE_WIRE_RESULT_OK;
@@ -191,7 +191,7 @@ char OneWireCrc()
 {
     return crc;
 }
-int OneWireMain()
+static void handleState()
 {
     static int byteindex;
     static char bitmask;
@@ -203,9 +203,9 @@ int OneWireMain()
         if (elapsedMs > BUS_TIMEOUT_MS)
         {
             LogTime("1-wire bus timed out so protocol has been reset to idle.\r\n");
-            OneWireInit();
+            OneWireInit(0);
             result = ONE_WIRE_RESULT_TIMED_OUT;
-            return 0;
+            return;
         }
     }
     else
@@ -213,7 +213,7 @@ int OneWireMain()
         busTimer = HrTimerCount();
     }
 
-    if (OneWireBusBusy()) return 0;
+    if (OneWireBusBusy()) return;
     
     switch(state)
     {
@@ -235,7 +235,7 @@ int OneWireMain()
                     case JOB_SEARCH: state = SEND_NEXT_SEARCH_WRITE; break;
                     default:
                         LogTimeF("Unknown job in RESET_RELEASE %d\r\n", job);
-                        return -1;
+                        break;
                 }
             }
             break;
@@ -335,7 +335,11 @@ int OneWireMain()
             break;
         default:
             LogTimeF("Unknown state %d\r\n", state);
-            return -1;
+            break;
     }
-    return 0;
+}
+void OneWireMain()
+{
+	handleState();
+	DeviceMain();
 }
