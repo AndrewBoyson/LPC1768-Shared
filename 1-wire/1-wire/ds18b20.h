@@ -15,6 +15,7 @@ extern int     DS18B20RomCount;
 extern char    DS18B20Roms[];
 extern char*   DS18B20RomNames[];
 extern void  (*DS18B20RomSetters[])(char*);
+extern char*   DS18B20AddRom(void(*setter)(char*), char* name);
 extern int16_t DS18B20ValueFromRom(char* rom);
 extern int     DS18B20IsValidValue(int16_t value);
 extern void    DS18B20ValueToString(int16_t value, char* buffer);

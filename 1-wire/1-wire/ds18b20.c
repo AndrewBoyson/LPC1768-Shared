@@ -13,7 +13,16 @@ int     DS18B20RomCount;
 char*   DS18B20RomNames  [DEVICE_MAX];
 char    DS18B20Roms      [DEVICE_MAX * 8];
 void  (*DS18B20RomSetters[DEVICE_MAX])(char*);
-    
+
+
+char* DS18B20AddRom(void(*setter)(char*), char* name)
+{
+    char* pRom = DS18B20Roms + 8 * DS18B20RomCount;
+    DS18B20RomSetters[DS18B20RomCount] = setter;
+    DS18B20RomNames[DS18B20RomCount] = name;
+    DS18B20RomCount++;
+	return pRom;
+}
 
 #define MAX_TEMP_16THS 1600
 #define MIN_TEMP_16THS -160
