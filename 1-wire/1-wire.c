@@ -4,6 +4,7 @@
 #include "1-wire-device.h"
 #include "lpc1768/hrtimer/hrtimer.h"
 
+char OneWireInUse = 0;
 bool OneWireTrace = false;
 
 #define BUS_TIMEOUT_MS 20000
@@ -88,6 +89,7 @@ void OneWireInit(char* pin)
     state = WAIT_FOR_SOMETHING_TO_DO;
     result = ONE_WIRE_RESULT_OK;
     job   =  JOB_NONE;
+	OneWireInUse = 1;
 }
 bool OneWireBusy()
 {

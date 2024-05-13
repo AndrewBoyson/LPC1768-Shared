@@ -1,9 +1,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include "web/http/http.h"
-#include "1-wire/1-wire/1-wire-device.h"
+#include "1-wire/1-wire-device.h"
 #include "settings/settings.h"
-#include "1-wire/1-wire/ds18b20.h"
+#include "1-wire/ds18b20.h"
 
 void WebOneWireQuery(char* pQuery)
 {

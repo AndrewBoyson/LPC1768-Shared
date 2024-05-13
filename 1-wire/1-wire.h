@@ -6,6 +6,7 @@
 #define ONE_WIRE_RESULT_TIMED_OUT               3
 #define ONE_WIRE_RESULT_CRC_ERROR               4
 
+extern char OneWireInUse;
 extern bool OneWireTrace;
 
 extern int  OneWireResult(void);

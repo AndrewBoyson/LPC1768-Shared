@@ -26,6 +26,13 @@ extern void        WebNavCss        (void);
 extern const char* WebNavCssDate;
 extern const char* WebNavCssTime;
 
+extern void        WebOneWireHtml      (void        );
+extern void        WebOneWireQuery     (char* pQuery);
+extern void        WebOneWireAjax      (void        );
+extern void        WebOneWireScript    (void        );
+extern const char* WebOneWireScriptDate              ;
+extern const char* WebOneWireScriptTime              ;
+
 extern void        WebClockHtml     (void);
 extern void        WebClockScript   (void);
 extern const char* WebClockScriptDate;

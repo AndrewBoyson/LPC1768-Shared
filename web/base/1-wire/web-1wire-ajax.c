@@ -2,10 +2,10 @@
 #include   <stdio.h>
 
 #include "web/http/http.h"
-#include "1-wire/1-wire/ds18b20.h"
-#include "1-wire/1-wire/1-wire.h"
-#include "1-wire/1-wire/1-wire-bus.h"
-#include "1-wire/1-wire/1-wire-device.h"
+#include "1-wire/ds18b20.h"
+#include "1-wire/1-wire.h"
+#include "1-wire/1-wire-bus.h"
+#include "1-wire/1-wire-device.h"
 
 static void addRomToHttp(char* pRom)
 {
