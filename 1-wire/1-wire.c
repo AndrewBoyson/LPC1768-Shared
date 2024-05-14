@@ -5,7 +5,7 @@
 #include "lpc1768/hrtimer/hrtimer.h"
 
 char OneWireInUse = 0;
-bool OneWireTrace = false;
+char OneWireTrace = 0;
 
 #define BUS_TIMEOUT_MS 20000
 

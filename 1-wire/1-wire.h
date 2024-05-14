@@ -7,7 +7,7 @@
 #define ONE_WIRE_RESULT_CRC_ERROR               4
 
 extern char OneWireInUse;
-extern bool OneWireTrace;
+extern char OneWireTrace;
 
 extern int  OneWireResult(void);
 extern void OneWireInit(char* pin);
