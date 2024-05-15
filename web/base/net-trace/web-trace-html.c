@@ -5,7 +5,7 @@
 void WebTraceHtml()
 {
     HttpOk("text/html; charset=UTF-8", "no-cache", NULL, NULL);
-    WebAddHeader("Net Trace", "settings.css", "trace.js");
+    WebAddHeader2("Net Trace", "settings.css", "ajax-class.js", "trace.js");
     WebAddNav(TRACE_PAGE);
     WebAddH1("Net Trace");
     

@@ -65,6 +65,88 @@ void WebAddHeader(const char* title, const char* style, const char* script)
                      "<body>\r\n");
 
 }
+void WebAddHeader2(const char* title, const char* style, const char* script1, const char* script2)
+{
+    HttpAddText("<!DOCTYPE html>\r\n"
+                     "<html>\r\n"
+                     "<head>\r\n");
+    HttpAddText("   <title>");
+    HttpAddText(WebSiteName);
+    if (title)
+    {
+        HttpAddText(" - ");
+        HttpAddText(title);
+    }
+    HttpAddText("</title>\r\n");
+    HttpAddText("   <link rel='stylesheet' href='/base.css' type='text/css'/>\r\n");
+    if (style)
+    {
+        HttpAddText("   <link rel='stylesheet' href='/");
+        HttpAddText(style);
+        HttpAddText("' type='text/css'/>\r\n");
+    }
+    if (script1)
+    {
+        HttpAddText("   <script src='/");
+        HttpAddText(script1);
+        HttpAddText("' type='text/javascript'></script>\r\n");
+    }
+    if (script2)
+    {
+        HttpAddText("   <script src='/");
+        HttpAddText(script2);
+        HttpAddText("' type='text/javascript'></script>\r\n");
+    }
+    HttpAddText("   <meta name='viewport' content='width=device-width, initial-scale=1'>\r\n"
+                     "   <link rel='icon'       href='/favicon.ico' type='image/x-icon'/>\r\n"
+                     "</head>\r\n"
+                     "<body>\r\n");
+
+}
+void WebAddHeader3(const char* title, const char* style, const char* script1, const char* script2, const char* script3)
+{
+    HttpAddText("<!DOCTYPE html>\r\n"
+                     "<html>\r\n"
+                     "<head>\r\n");
+    HttpAddText("   <title>");
+    HttpAddText(WebSiteName);
+    if (title)
+    {
+        HttpAddText(" - ");
+        HttpAddText(title);
+    }
+    HttpAddText("</title>\r\n");
+    HttpAddText("   <link rel='stylesheet' href='/base.css' type='text/css'/>\r\n");
+    if (style)
+    {
+        HttpAddText("   <link rel='stylesheet' href='/");
+        HttpAddText(style);
+        HttpAddText("' type='text/css'/>\r\n");
+    }
+    if (script1)
+    {
+        HttpAddText("   <script src='/");
+        HttpAddText(script1);
+        HttpAddText("' type='text/javascript'></script>\r\n");
+    }
+    if (script2)
+    {
+        HttpAddText("   <script src='/");
+        HttpAddText(script2);
+        HttpAddText("' type='text/javascript'></script>\r\n");
+    }
+    if (script3)
+    {
+        HttpAddText("   <script src='/");
+        HttpAddText(script3);
+        HttpAddText("' type='text/javascript'></script>\r\n");
+    }
+    HttpAddText("   <meta name='viewport' content='width=device-width, initial-scale=1'>\r\n"
+                     "   <link rel='icon'       href='/favicon.ico' type='image/x-icon'/>\r\n"
+                     "</head>\r\n"
+                     "<body>\r\n");
+
+}
 void WebAddH1(const char* pageName)
 {
     HttpAddText("<h1 id='main-content'>");

@@ -6,7 +6,7 @@
 void WebNetHtml()
 {
     HttpOk("text/html; charset=UTF-8", "no-cache", NULL, NULL);
-    WebAddHeader("Net", "settings.css", "net.js");
+    WebAddHeader3("Net", "settings.css", "ajax-class.js", "net-class.js", "net.js");
     WebAddNav(NET_PAGE);
     WebAddH1("Net");
                      

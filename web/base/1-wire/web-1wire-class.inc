@@ -1,4 +1,4 @@
-"//OneWire script\n"
+"//OneWire class\n"
 "'use strict';\n"
 "\n"
 "class OneWire\n"
@@ -16,4 +16,4 @@
 "        }\n"
 "        return (value / 16.0).toFixed(1);\n"
 "    }\n"
-"}"
+"}\n"

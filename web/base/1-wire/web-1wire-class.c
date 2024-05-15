@@ -3,14 +3,14 @@
 //Use http://tomeko.net/online_tools/cpp_text_escape.php   to convert from text to c-multiline
 //Use http://tomeko.net/online_tools/cpp_text_unescape.php to convert from c-multiline to text
 
-const char* WebNet6ScriptDate = __DATE__;
-const char* WebNet6ScriptTime = __TIME__;
-
 static const char* script =
-#include "web-net6-script.inc"
+#include "web-1wire-class.inc"
 ;
-void WebNet6Script()
+const char* WebOneWireClassDate = __DATE__;
+const char* WebOneWireClassTime = __TIME__;
+
+void WebOneWireClass()
 {
-    HttpOk("application/javascript; charset=UTF-8", "max-age=3600", WebNet6ScriptDate, WebNet6ScriptTime);
+    HttpOk("application/javascript; charset=UTF-8", "max-age=3600", WebOneWireClassDate, WebOneWireClassTime);
     HttpAddText(script);
 }

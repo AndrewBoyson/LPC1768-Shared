@@ -7,7 +7,7 @@
 void WebOneWireHtml()
 {
     HttpOk("text/html; charset=UTF-8", "no-cache", NULL, NULL);
-    WebAddHeader("1-Wire", "settings.css", "1wire.js");
+    WebAddHeader3("1-Wire", "settings.css", "ajax-class.js", "1wire-class.js", "1wire.js");
     WebAddNav(ONE_WIRE_PAGE);
     WebAddH1("1-Wire");
 

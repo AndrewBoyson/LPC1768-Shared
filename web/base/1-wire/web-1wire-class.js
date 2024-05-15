@@ -1,4 +1,4 @@
-//OneWire script
+//OneWire class
 'use strict';
 
 class OneWire

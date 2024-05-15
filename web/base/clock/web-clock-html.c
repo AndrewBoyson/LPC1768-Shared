@@ -7,7 +7,7 @@
 void WebClockHtml()
 {
     HttpOk("text/html; charset=UTF-8", "no-cache", NULL, NULL);
-    WebAddHeader("Clock", "settings.css", "clock.js");
+    WebAddHeader3("Clock", "settings.css", "ajax-class.js", "clock-class.js", "clock.js");
     WebAddNav(CLOCK_PAGE);
     WebAddH1("Clock");
     

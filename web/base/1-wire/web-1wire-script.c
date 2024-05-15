@@ -4,8 +4,6 @@
 //Use http://tomeko.net/online_tools/cpp_text_unescape.php to convert from c-multiline to text
 
 static const char* script =
-#include "web/common/web-ajax-class.inc"
-#include "web-1wire-class.inc"
 #include "web-1wire-script.inc"
 ;
 const char* WebOneWireScriptDate = __DATE__;

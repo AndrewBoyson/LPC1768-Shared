@@ -5,7 +5,7 @@
 void WebNet6Html()
 {
     HttpOk("text/html; charset=UTF-8", "no-cache", NULL, NULL);
-    WebAddHeader("Net IPv6", "settings.css", "net6.js");
+    WebAddHeader3("Net IPv6", "settings.css", "ajax-class.js", "net-class.js", "net6.js");
     WebAddNav(NET6_PAGE);
     WebAddH1("Net IPv6");
 

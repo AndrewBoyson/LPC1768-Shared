@@ -5,7 +5,7 @@
 void WebNet4Html()
 {
     HttpOk("text/html; charset=UTF-8", "no-cache", NULL, NULL);
-    WebAddHeader("Net IPv4", "settings.css", "net4.js");
+    WebAddHeader3("Net IPv4", "settings.css", "ajax-class.js", "net-class.js", "net4.js");
     WebAddNav(NET4_PAGE);
     WebAddH1("Net IPv4");
     

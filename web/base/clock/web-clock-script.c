@@ -7,8 +7,6 @@ const char* WebClockScriptDate = __DATE__;
 const char* WebClockScriptTime = __TIME__;
 
 static const char* script =
-#include "web-clock-class.inc"
-#include "web/common/web-ajax-class.inc"
 #include "web-clock-script.inc"
 ;
 void WebClockScript()

@@ -26,17 +26,27 @@ extern void        WebNavCss        (void);
 extern const char* WebNavCssDate;
 extern const char* WebNavCssTime;
 
+extern void        WebAjaxClass        (void);
+extern const char* WebAjaxClassDate;
+extern const char* WebAjaxClassTime;
+
 extern void        WebOneWireHtml      (void        );
 extern void        WebOneWireQuery     (char* pQuery);
 extern void        WebOneWireAjax      (void        );
 extern void        WebOneWireScript    (void        );
 extern const char* WebOneWireScriptDate              ;
 extern const char* WebOneWireScriptTime              ;
+extern void        WebOneWireClass     (void        );
+extern const char* WebOneWireClassDate               ;
+extern const char* WebOneWireClassTime               ;
 
 extern void        WebClockHtml     (void);
 extern void        WebClockScript   (void);
 extern const char* WebClockScriptDate;
 extern const char* WebClockScriptTime;
+extern void        WebClockClass   (void);
+extern const char* WebClockClassDate;
+extern const char* WebClockClassTime;
 extern void        WebClockAjax     (void);
 extern void        WebClockQuery    (char* pQuery);
 
@@ -54,6 +64,9 @@ extern void        WebNetHtml       (void);
 extern void        WebNetScript     (void);
 extern const char* WebNetScriptDate;
 extern const char* WebNetScriptTime;
+extern void        WebNetClass     (void);
+extern const char* WebNetClassDate;
+extern const char* WebNetClassTime;
 extern void        WebNetAjax       (void);
 extern void        WebNetQuery      (char* pQuery);
 

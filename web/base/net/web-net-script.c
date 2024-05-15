@@ -7,8 +7,6 @@ const char* WebNetScriptDate = __DATE__;
 const char* WebNetScriptTime = __TIME__;
 
 static const char* script =
-#include "web/common/web-ajax-class.inc"
-#include "web-net-class.inc"
 #include "web-net-script.inc"
 ;
 void WebNetScript()

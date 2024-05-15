@@ -4,6 +4,8 @@
 extern void WebAddNavItem      (int highlight, const char* href, const char* title);
 extern void WebAddNav          (int page);
 extern void WebAddHeader       (const char* title, const char* style, const char* script);
+extern void WebAddHeader2      (const char* title, const char* style, const char* script1, const char* script2);
+extern void WebAddHeader3      (const char* title, const char* style, const char* script1, const char* script2, const char* script3);
 extern void WebAddH1           (const char* pageName);
 extern void WebAddH2           (const char* text);
 extern void WebAddEnd          (void);

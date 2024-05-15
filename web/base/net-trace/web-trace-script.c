@@ -7,7 +7,7 @@ const char* WebTraceScriptDate = __DATE__;
 const char* WebTraceScriptTime = __TIME__;
 
 static const char* script =
-#include "web/common/web-ajax-class.inc"
+//#include "web/common/web-ajax-class.inc"
 #include "web-trace-script.inc"
 ;
 void WebTraceScript()
