@@ -258,15 +258,16 @@ void Ip6AddrFromDest(int dest, char* pDstIp)
 {
     switch (dest)
     {
-        case   UNICAST:        /*No change*/                                    break;
+        case   UNICAST:        /*No change*/                                 break;
         case   UNICAST_DNS:    Ip6AddrCopy(pDstIp, NdpDnsServer           ); break;
         case   UNICAST_NTP:    Ip6AddrCopy(pDstIp, NtpClientQueryServerIp6); break;
         case   UNICAST_TFTP:   Ip6AddrCopy(pDstIp, TftpServerIp6          ); break;
-        case MULTICAST_NODE:   Ip6AddrCopy(pDstIp, Ip6AddrAllNodes     ); break;
-        case MULTICAST_ROUTER: Ip6AddrCopy(pDstIp, Ip6AddrAllRouters   ); break;
-        case MULTICAST_MDNS:   Ip6AddrCopy(pDstIp, Ip6AddrMdns         ); break;
-        case MULTICAST_LLMNR:  Ip6AddrCopy(pDstIp, Ip6AddrLlmnr        ); break;
-        case MULTICAST_NTP:    Ip6AddrCopy(pDstIp, Ip6AddrNtp          ); break;
+        case MULTICAST_NODE:   Ip6AddrCopy(pDstIp, Ip6AddrAllNodes        ); break;
+        case MULTICAST_ROUTER: Ip6AddrCopy(pDstIp, Ip6AddrAllRouters      ); break;
+        case MULTICAST_MDNS:   Ip6AddrCopy(pDstIp, Ip6AddrMdns            ); break;
+        case MULTICAST_OSDNS:  Ip6AddrCopy(pDstIp, Ip6AddrMdns            ); break;
+        case MULTICAST_LLMNR:  Ip6AddrCopy(pDstIp, Ip6AddrLlmnr           ); break;
+        case MULTICAST_NTP:    Ip6AddrCopy(pDstIp, Ip6AddrNtp             ); break;
         default:
             LogTimeF("Ip6AddressFromDest unknown destination %d\r\n", dest);
             break;           

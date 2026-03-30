@@ -3,8 +3,8 @@ client query O   unicast 53053 ->    53 QR=0
 client reply I   unicast 53053 <-    53 QR=1
 
 LLMNR -- just the host name
-client query O multicast 53053 ->  5355 QR=0
-client reply I   unicast 53053 <-  5355 QR=1
+client query O multicast 53055 ->  5355 QR=0
+client reply I   unicast 53055 <-  5355 QR=1
 server query I multicast  5355 <- xxxxx QR=0
 server reply O   unicast  5355 -> xxxxx QR=1
 
@@ -13,6 +13,12 @@ client query O multicast  5353 ->  5353 QR=0
 client reply I multicast  5353 <-  5353 QR=1
 server query I multicast  5353 <-  5353 QR=0
 server reply O multicast  5353 ->  5353 QR=1
+
+OSDNS -- host name + '.local'
+client query O multicast 53057 ->  5353 QR=0
+client reply I   unicast 53057 <-  5353 QR=1
+server query I multicast  5353 <- xxxxx QR=0
+server reply O   unicast  5353 -> xxxxx QR=1
 
 Dns directs packets to DnsReply(receive) and DnsServer(receive and send) and polls for DnsQuery(send) packets
 

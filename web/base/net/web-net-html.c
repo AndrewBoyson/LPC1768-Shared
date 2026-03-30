@@ -19,10 +19,12 @@ void WebNetHtml()
     WebAddH2("Request resolution");
     WebAddAjaxInput ("", 100, "ajax-nr", "name-to-resolve");
     WebAddAjaxButton("MDNS over IPV6" , "request-ipv6-mdns" );
+    WebAddAjaxButton("OSDNS over IPV6", "request-ipv6-osdns");
     WebAddAjaxButton("LLMNR over IPV6", "request-ipv6-llmnr");
     WebAddAjaxButton("DNS over IPV6"  , "request-ipv6-udns" );
     HttpAddText("<br/>\r\n");
     WebAddAjaxButton("MDNS over IPV4" , "request-ipv4-mdns" );
+    WebAddAjaxButton("OSDNS over IPV4", "request-ipv4-osdns");
     WebAddAjaxButton("LLMNR over IPV4", "request-ipv4-llmnr");
     WebAddAjaxButton("DNS over IPV4"  , "request-ipv4-udns" );
     

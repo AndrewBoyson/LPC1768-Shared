@@ -20,7 +20,7 @@
 #include "net/resolve/ar6.h"
 
 bool Nr4Trace = false; //Do not use
-bool NrTrace = false;
+bool NrTrace  = false;
 
 #define CACHE_TIMEOUT_MS 3600 * 1000
 #define STALE_TIMEOUT_MS 1800 * 1000
@@ -347,6 +347,7 @@ static char letterFromStateAndProtocol(uint8_t dnsState, uint8_t dnsProtocol, ui
             {
                 case DNS_PROTOCOL_UDNS:  if (ipProtocol == ETH_IPV4) return 'd' ; else return 'D';
                 case DNS_PROTOCOL_MDNS:  if (ipProtocol == ETH_IPV4) return 'm' ; else return 'M';
+                case DNS_PROTOCOL_OSDNS: if (ipProtocol == ETH_IPV4) return 'o' ; else return 'O';
                 case DNS_PROTOCOL_LLMNR: if (ipProtocol == ETH_IPV4) return 'l' ; else return 'L';
                 case DNS_PROTOCOL_NONE:  return '-';
                 default:                 return '?';
@@ -459,8 +460,9 @@ static bool protocolIsAvailable(struct record* pr)
     bool isExternal = getIsExternal(pr);
     switch(pr->dnsProtocol)
     {
-        case DNS_PROTOCOL_MDNS: return !isExternal;
+        case DNS_PROTOCOL_MDNS:  return !isExternal;
         case DNS_PROTOCOL_LLMNR: return !isExternal;
+        case DNS_PROTOCOL_OSDNS: return !isExternal;
         case DNS_PROTOCOL_UDNS:
             if (pr->ipProtocol == ETH_IPV6)
             {
@@ -495,6 +497,7 @@ static void makeNextProtocol(struct record* pr)
         case DNS_PROTOCOL_MDNS:  break;
         case DNS_PROTOCOL_LLMNR: break;
         case DNS_PROTOCOL_UDNS:  break;
+		case DNS_PROTOCOL_OSDNS: break;
         default:
             pr->ipProtocol  = ETH_IPV6;
             pr->dnsProtocol = DNS_PROTOCOL_MDNS;
@@ -504,6 +507,17 @@ static void makeNextProtocol(struct record* pr)
     switch(pr->dnsProtocol)
     {
         case DNS_PROTOCOL_MDNS: 
+            if (pr->ipProtocol == ETH_IPV6)
+            {
+                pr->ipProtocol = ETH_IPV4;
+            }
+            else
+            {
+                pr->ipProtocol = ETH_IPV6;
+                pr->dnsProtocol = DNS_PROTOCOL_OSDNS;
+            }
+            break;
+        case DNS_PROTOCOL_OSDNS:
             if (pr->ipProtocol == ETH_IPV6)
             {
                 pr->ipProtocol = ETH_IPV4;

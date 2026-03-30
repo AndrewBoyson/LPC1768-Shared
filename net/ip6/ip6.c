@@ -172,6 +172,7 @@ int Ip6PollForPacketToSend(char* pPacket, int* pSize, char* pDstMac)
         case MULTICAST_NODE:
         case MULTICAST_ROUTER:
         case MULTICAST_MDNS:
+        case MULTICAST_OSDNS:
         case MULTICAST_LLMNR:
         case MULTICAST_NTP:
         case SOLICITED_NODE:

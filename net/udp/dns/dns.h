@@ -20,6 +20,8 @@ extern int  DnsPollForPacketToSend(int ipType, void* pPacket, int* pSize);
 #define DNS_LLMNR_SERVER_PORT     5355
 #define DNS_LLMNR_CLIENT_PORT    53055
 
+#define DNS_OSDNS_CLIENT_PORT    53057
+
 #define DNS_PROTOCOL_NONE   0
 #define DNS_PROTOCOL_UDNS   1
 #define DNS_PROTOCOL_MDNS   2

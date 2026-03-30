@@ -83,6 +83,7 @@ void Ip4AddrFromDest(const int dest, uint32_t* pDstIp)
         case MULTICAST_NODE:   *pDstIp = IP4_MULTICAST_ALL_HOSTS;     break;
         case MULTICAST_ROUTER: *pDstIp = IP4_MULTICAST_ALL_ROUTERS;   break;
         case MULTICAST_MDNS:   *pDstIp = IP4_MULTICAST_DNS_ADDRESS;   break;
+        case MULTICAST_OSDNS:  *pDstIp = IP4_MULTICAST_DNS_ADDRESS;   break;
         case MULTICAST_LLMNR:  *pDstIp = IP4_MULTICAST_LLMNR_ADDRESS; break;
         case MULTICAST_NTP:    *pDstIp = IP4_MULTICAST_NTP_ADDRESS;   break;
         case BROADCAST:        *pDstIp = IP4_BROADCAST_ADDRESS;       break;

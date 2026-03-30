@@ -33,6 +33,10 @@ void WebNetQuery(char* pQuery)
         {
             NrTestSendRequest(ETH_IPV6, DNS_PROTOCOL_UDNS);
         }
+        if (HttpSameStr(pName, "request-ipv6-osdns"))
+        {
+            NrTestSendRequest(ETH_IPV6, DNS_PROTOCOL_OSDNS);
+        }
         if (HttpSameStr(pName, "request-ipv4-mdns"))
         {
             NrTestSendRequest(ETH_IPV4, DNS_PROTOCOL_MDNS);
@@ -44,6 +48,10 @@ void WebNetQuery(char* pQuery)
         if (HttpSameStr(pName, "request-ipv4-udns"))
         {
             NrTestSendRequest(ETH_IPV4, DNS_PROTOCOL_UDNS);
+        }
+        if (HttpSameStr(pName, "request-ipv4-osdns"))
+        {
+            NrTestSendRequest(ETH_IPV4, DNS_PROTOCOL_OSDNS);
         }
     }
 }

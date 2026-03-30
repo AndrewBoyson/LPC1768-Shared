@@ -83,6 +83,7 @@ static int handlePort(void (*traceback)(void), int dataLengthRx, char* pDataRx, 
 		  else                          return  DnsHandlePacketReceived(traceback, DNS_PROTOCOL_OSDNS, dataLengthRx, pDataRx, pPataLengthTx, pDataTx);  // 5353 legacy or one shot mdns
         case DNS_LLMNR_CLIENT_PORT:     return  DnsHandlePacketReceived(traceback, DNS_PROTOCOL_LLMNR, dataLengthRx, pDataRx, pPataLengthTx, pDataTx);  //53055
         case DNS_LLMNR_SERVER_PORT:     return  DnsHandlePacketReceived(traceback, DNS_PROTOCOL_LLMNR, dataLengthRx, pDataRx, pPataLengthTx, pDataTx);  // 5355
+        case DNS_OSDNS_CLIENT_PORT:     return  DnsHandlePacketReceived(traceback, DNS_PROTOCOL_OSDNS, dataLengthRx, pDataRx, pPataLengthTx, pDataTx);  //53057
         case TFTP_CLIENT_PORT:          return TftpHandlePacketReceived(traceback,                     dataLengthRx, pDataRx, pPataLengthTx, pDataTx);  //60690
         
         //Quietly drop these
@@ -164,6 +165,7 @@ static int pollForPacketToSend(int type, int* pDataLength, char* pData)
                 case   UNICAST_DNS:    srcPort = DNS_UNICAST_CLIENT_PORT;   dstPort = DNS_UNICAST_SERVER_PORT;   break; //53053,   53
                 case MULTICAST_MDNS:   srcPort = DNS_MDNS_PORT;             dstPort = DNS_MDNS_PORT;             break; // 5353, 5353
                 case MULTICAST_LLMNR:  srcPort = DNS_LLMNR_CLIENT_PORT;     dstPort = DNS_LLMNR_SERVER_PORT;     break; //53055, 5355
+				case MULTICAST_OSDNS:  srcPort = DNS_OSDNS_CLIENT_PORT;     dstPort = DNS_MDNS_PORT;             break; //53057, 5353
                 
                 //Report anything else
                 default:
