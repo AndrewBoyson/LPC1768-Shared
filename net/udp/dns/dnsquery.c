@@ -174,7 +174,8 @@ int DnsQueryPoll(int ipType, void* pPacket, int* pSize)
     if (DnsQueryTrace || NetTraceHostGetMatched()) logQuery();
     
     static uint16_t id = 0;
-    DnsHdrId = ++id;
+    //DnsHdrId = ++id;
+    DnsHdrId = _DnsProtocol == DNS_PROTOCOL_MDNS ? 0 : ++id; //Transaction id should be zero for mdns - added 28/03/2026
     DnsHdrIsReply          = false;
     DnsHdrIsAuthoritative  = false; //Added 12/12/2020
     DnsHdrIsRecursiveQuery = false;
@@ -209,6 +210,7 @@ int DnsQueryPoll(int ipType, void* pPacket, int* pSize)
     {
         case DNS_PROTOCOL_UDNS:  dest =   UNICAST_DNS;   break;   //IPv6 ==> NdpDnsServer; IPv4 ==> DhcpDnsServer
         case DNS_PROTOCOL_MDNS:  dest = MULTICAST_MDNS;  break;
+        case DNS_PROTOCOL_OSDNS: dest = MULTICAST_MDNS;  break;
         case DNS_PROTOCOL_LLMNR: dest = MULTICAST_LLMNR; break;
         default:
             LogTimeF("DNS unknown query protocol %d\r\n", _DnsProtocol);

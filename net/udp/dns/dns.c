@@ -20,6 +20,7 @@ void DnsProtocolString(uint8_t protocol, int size, char* text)
     {
         case DNS_PROTOCOL_UDNS:  strncpy (text, "DNS",   size);        break;
         case DNS_PROTOCOL_MDNS:  strncpy (text, "MDNS",  size);        break;
+        case DNS_PROTOCOL_OSDNS: strncpy (text, "OSDNS", size);        break;
         case DNS_PROTOCOL_LLMNR: strncpy (text, "LLMNR", size);        break;
         default:                 snprintf(text, size, "%d", protocol); break;
     }
@@ -43,6 +44,7 @@ void DnsProtocolLog(uint8_t protocol)
     {
         case DNS_PROTOCOL_UDNS:  Log ("DNS  ");        break;
         case DNS_PROTOCOL_MDNS:  Log ("MDNS ");        break;
+        case DNS_PROTOCOL_OSDNS: Log ("OSDNS");        break;
         case DNS_PROTOCOL_LLMNR: Log ("LLMNR");        break;
         default:                 LogF("%d", protocol); break;
     }

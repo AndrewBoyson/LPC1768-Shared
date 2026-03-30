@@ -49,7 +49,7 @@ int DnsLabelMakeFullNameFromName(int protocol, const char* p, int size, char* re
         *result++ = c;
         i++;
     }
-    if (protocol == DNS_PROTOCOL_MDNS)
+    if (protocol == DNS_PROTOCOL_MDNS || protocol == DNS_PROTOCOL_OSDNS)
     {
         p = ".local";
         while (i < size - 1)

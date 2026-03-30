@@ -78,7 +78,9 @@ static int handlePort(void (*traceback)(void), int dataLengthRx, char* pDataRx, 
         case DHCP_CLIENT_PORT:          return DhcpHandleResponse      (traceback,                     dataLengthRx, pDataRx, pPataLengthTx, pDataTx);  //   68
         case NTP_PORT:                  return  NtpHandlePacketReceived(traceback,                     dataLengthRx, pDataRx, pPataLengthTx, pDataTx);  //  123
         case DNS_UNICAST_CLIENT_PORT:   return  DnsHandlePacketReceived(traceback, DNS_PROTOCOL_UDNS,  dataLengthRx, pDataRx, pPataLengthTx, pDataTx);  //53053
-        case DNS_MDNS_PORT:             return  DnsHandlePacketReceived(traceback, DNS_PROTOCOL_MDNS,  dataLengthRx, pDataRx, pPataLengthTx, pDataTx);  // 5353
+        case DNS_MDNS_PORT:
+		  if (srcPort == DNS_MDNS_PORT) return  DnsHandlePacketReceived(traceback, DNS_PROTOCOL_MDNS,  dataLengthRx, pDataRx, pPataLengthTx, pDataTx);  // 5353 standard mdns
+		  else                          return  DnsHandlePacketReceived(traceback, DNS_PROTOCOL_OSDNS, dataLengthRx, pDataRx, pPataLengthTx, pDataTx);  // 5353 legacy or one shot mdns
         case DNS_LLMNR_CLIENT_PORT:     return  DnsHandlePacketReceived(traceback, DNS_PROTOCOL_LLMNR, dataLengthRx, pDataRx, pPataLengthTx, pDataTx);  //53055
         case DNS_LLMNR_SERVER_PORT:     return  DnsHandlePacketReceived(traceback, DNS_PROTOCOL_LLMNR, dataLengthRx, pDataRx, pPataLengthTx, pDataTx);  // 5355
         case TFTP_CLIENT_PORT:          return TftpHandlePacketReceived(traceback,                     dataLengthRx, pDataRx, pPataLengthTx, pDataTx);  //60690

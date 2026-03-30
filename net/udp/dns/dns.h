@@ -23,7 +23,8 @@ extern int  DnsPollForPacketToSend(int ipType, void* pPacket, int* pSize);
 #define DNS_PROTOCOL_NONE   0
 #define DNS_PROTOCOL_UDNS   1
 #define DNS_PROTOCOL_MDNS   2
-#define DNS_PROTOCOL_LLMNR  3
+#define DNS_PROTOCOL_OSDNS  3 //Added to allow android to resolve names by one shot mdns see RFC 6762 sections 5.1 and 6.7 - 29/03/2026
+#define DNS_PROTOCOL_LLMNR  4
 
 #define DNS_RECORD_NONE  0
 #define DNS_RECORD_A     1

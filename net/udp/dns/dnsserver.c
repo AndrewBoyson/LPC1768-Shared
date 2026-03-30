@@ -142,8 +142,12 @@ static int addAnswers(int dnsProtocol)
         *p++ = mdns; *p++ = 1;                                   //16 bit Class LSB QCLASS_IN = 1 - internet
         
         //Add the TTL
-        *p++ =    0; *p++ = 0; *p++ = 4; *p++ = 0;               //32 bit TTL seconds - 1024
-        
+		switch (dnsProtocol)
+		{
+			case DNS_PROTOCOL_OSDNS: *p++ = 0; *p++ = 0; *p++ = 0; *p++ =  10; break;              //32 bit TTL seconds -   10 RFC 6762 section 6.7
+			case DNS_PROTOCOL_MDNS:  *p++ = 0; *p++ = 0; *p++ = 0; *p++ = 120; break;              //32 bit TTL seconds -  120
+			default:                 *p++ = 0; *p++ = 0; *p++ = 4; *p++ =   0; break;              //32 bit TTL seconds - 1024
+        }
         
         //Add the 16 bit payload length
         *p++ = 0;
