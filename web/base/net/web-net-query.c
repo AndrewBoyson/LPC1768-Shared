@@ -1,4 +1,5 @@
 #include <string.h>
+#include <ctype.h>
 
 #include "web/http/http.h"
 #include "net/resolve/nr.h"
@@ -19,7 +20,16 @@ void WebNetQuery(char* pQuery)
         
         if (HttpSameStr(pName, "name-to-resolve"))
         {
-            strncpy(NrTest, pValue, NR_NAME_MAX_LENGTH);
+			char* pIn  = pValue;
+			char* pOut = NrTest;
+			while (1)
+			{
+				char c = *pIn++;
+				if (!c) break; //Finish at end of input
+				if (!isspace(c)) *pOut++ = c;
+				if (pOut > (NrTest + NR_NAME_MAX_LENGTH - 1)) break; //Finish when only have room for terminating null left
+			}
+			*pOut = 0; //Terminate the output string
         }
         if (HttpSameStr(pName, "request-ipv6-mdns"))
         {

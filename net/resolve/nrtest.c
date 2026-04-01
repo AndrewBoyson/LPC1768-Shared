@@ -29,46 +29,24 @@ void NrTestSendRequest(int ipProtocol, int dnsProtocol)
     _ipProtocol  = ipProtocol;
     _dnsProtocol = dnsProtocol;
     
-    if (NrTest[0])
-    {
-        _addr4 = Ip4AddrParse(NrTest);
-        if (_addr4)
-        {
-            _makeRequestForNameFromAddr4 = true;
-        }
-        else
-        {
-            Ip6AddrParse(NrTest, _addr6);
-            if (!Ip6AddrIsEmpty(_addr6))
-            {
-                _makeRequestForNameFromAddr6 = true;
-            }
-            else
-            {
-                _makeRequestForAddr4FromName = true;
-                _makeRequestForAddr6FromName = true;
-            }
-        }
-    }
-}
+    if (!NrTest[0]) return;
 
-/*
-static bool getMacOfDnsServer6()
-{
-    //For IPv6 UDNS check if have the MAC for the DNS server and, if not, request it and stop
-    if (_ipProtocol == ETH_IPV6 && _dnsProtocol == DNS_PROTOCOL_UDNS)
-    {
-        char mac[6];
-        Ar6IpToMac(NdpDnsServer, mac);
-        if (MacIsEmpty(mac))
-        {
-            Ar6MakeRequestForMacFromIp(NdpDnsServer); //The request is only repeated if made after a freeze time - call as often as you want.
-            return false;
-        }
-    }
-    return true;
+	_addr4 = Ip4AddrParse(NrTest);
+	Ip6AddrParse(NrTest, _addr6);
+	if      (_addr4                 ) //Have an ip4 address
+	{
+		_makeRequestForNameFromAddr4 = true;
+	}
+	else if (!Ip6AddrIsEmpty(_addr6)) //Have an ip6 address
+	{
+		_makeRequestForNameFromAddr6 = true;
+	}
+	else                              //Have a name
+	{
+		_makeRequestForAddr4FromName = true;
+		_makeRequestForAddr6FromName = true;
+	}
 }
-*/
 
 void NrTestMain(void)
 {
@@ -77,7 +55,6 @@ void NrTestMain(void)
     
     if (_makeRequestForNameFromAddr4)
     {
-        //if (!getMacOfDnsServer6()) return;
         LogTime("NrTest - making "); DnsProtocolLog(_dnsProtocol); Log(" request over "); EthProtocolLog(_ipProtocol); LogF(" for name from '%s'\r\n", NrTest);
         DnsQueryNameFromIp4(_addr4, _dnsProtocol, _ipProtocol);
         _makeRequestForNameFromAddr4 = false;
@@ -85,7 +62,6 @@ void NrTestMain(void)
     }
     if (_makeRequestForNameFromAddr6)
     {
-        //if (!getMacOfDnsServer6()) return;
         LogTime("NrTest - making "); DnsProtocolLog(_dnsProtocol); Log(" request over "); EthProtocolLog(_ipProtocol); LogF(" for name from '%s'\r\n", NrTest);
         DnsQueryNameFromIp6(_addr6, _dnsProtocol, _ipProtocol);
         _makeRequestForNameFromAddr6 = false;
@@ -93,7 +69,6 @@ void NrTestMain(void)
     }
     if (_makeRequestForAddr4FromName)
     {
-        //if (!getMacOfDnsServer6()) return;
         LogTime("NrTest - making "); DnsProtocolLog(_dnsProtocol); Log(" request over "); EthProtocolLog(_ipProtocol); LogF(" for A from '%s'\r\n", NrTest);
         DnsQueryIp4FromName(NrTest, _dnsProtocol, _ipProtocol);
         _makeRequestForAddr4FromName = false;
@@ -101,7 +76,6 @@ void NrTestMain(void)
     }
     if (_makeRequestForAddr6FromName)
     {
-        //if (!getMacOfDnsServer6()) return;
         LogTime("NrTest - making "); DnsProtocolLog(_dnsProtocol); Log(" request over "); EthProtocolLog(_ipProtocol); LogF(" for AAAA from '%s'\r\n", NrTest);
         DnsQueryIp6FromName(NrTest, _dnsProtocol, _ipProtocol);
         _makeRequestForAddr6FromName = false;
