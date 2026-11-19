@@ -85,8 +85,10 @@ int EthHandlePacket(char* pPacketRx, int sizeRx, char* pPacketTx, int* pSizeTx)
         case 0x7380: break; //Drop Sky Q packet
         case 0x8100: break; //Drop Sky Q VLAN 802.1Q packet
         case 0x887b: break; //Drop Sky Q packet
+		case 0x22e3: break; //Drop TpLink homeplug  8931(dec) AB 19/11/2026
+		case 0x8912: break; //Drop TpLink homeplug 35090(dec) AB 19/11/2026
         default:
-            LogTimeF("ETH protocol %d not handled", EthProtocol);
+            LogTimeF("ETH protocol %d not handled\r\n", EthProtocol); //Added \r\n AB 19/11/2026
             break;
     }
     if (!action) return DO_NOTHING;
